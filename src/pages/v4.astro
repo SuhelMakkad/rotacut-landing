@@ -1,0 +1,833 @@
+---
+import "../styles/global.css";
+---
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rotacut — Precision Annular Cutters</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    :root {
+      --navy: #0D1B2A;
+      --navy2: #0F2236;
+      --navy3: #162B40;
+      --cyan: #00BFFF;
+      --cyan-dim: rgba(0, 191, 255, 0.6);
+      --cyan-pale: rgba(0, 191, 255, 0.08);
+      --orange: #F57C00;
+      --orange-pale: rgba(245, 124, 0, 0.15);
+      --border: rgba(0, 191, 255, 0.12);
+      --border-bright: rgba(0, 191, 255, 0.3);
+      --text: rgba(0, 191, 255, 0.9);
+      --text-dim: rgba(0, 191, 255, 0.5);
+      --text-faint: rgba(0, 191, 255, 0.2);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--navy);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 400;
+      overflow-x: hidden;
+    }
+    /* Blueprint grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px),
+        linear-gradient(rgba(0,191,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,191,255,0.04) 1px, transparent 1px);
+      background-size: 120px 120px, 120px 120px, 30px 30px, 30px 30px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    /* All content above grid */
+    nav, section, .hero, footer, .stats-strip { position: relative; z-index: 1; }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 3rem;
+      background: rgba(13,27,42,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .nav-logo span { color: var(--cyan); }
+    .nav-badge {
+      display: inline-block;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      background: var(--cyan-pale);
+      border: 1px solid var(--border);
+      color: var(--cyan-dim);
+      padding: 0.15rem 0.5rem;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+      text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
+    .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--cyan); }
+    .nav-cta {
+      background: transparent;
+      border: 1px solid var(--orange);
+      color: var(--orange);
+      padding: 0.45rem 1.25rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { background: var(--orange); color: #fff; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+    .hamburger span { display: block; width: 22px; height: 1px; background: var(--cyan); }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(13,27,42,0.98);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { color: var(--cyan); text-decoration: none; font-family: 'Rajdhani', sans-serif; font-size: 2.5rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+    .mobile-close { position: absolute; top: 1.5rem; right: 3rem; color: var(--cyan); cursor: pointer; background: none; border: none; font-size: 1.5rem; font-family: 'JetBrains Mono', monospace; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      padding-top: 64px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+    }
+    .hero-left { padding: 5rem 3rem 5rem 3rem; }
+    .hero-right {
+      padding: 5rem 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    /* Annotation crosshairs on image */
+    .hero-right::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 320px; height: 320px;
+      border: 1px dashed var(--border-bright);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .hero-right::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 200px; height: 200px;
+      border: 1px dashed var(--border);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .hero-img-wrap {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 440px;
+    }
+    .hero-img-wrap img {
+      width: 100%;
+      filter: drop-shadow(0 0 40px rgba(0,191,255,0.2)) drop-shadow(0 20px 60px rgba(0,0,0,0.6));
+    }
+    /* Dimension annotations */
+    .ann {
+      position: absolute;
+      font-size: 0.6rem;
+      color: var(--cyan-dim);
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .ann::before { content: ''; display: block; width: 20px; height: 1px; background: var(--cyan-dim); }
+    .ann-1 { top: 10%; right: -5rem; }
+    .ann-2 { bottom: 15%; right: -5rem; }
+    .ann-3 { top: 40%; left: -6rem; flex-direction: row-reverse; }
+    .ann-3::before { margin-left: 0; }
+
+    .hero-tag {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .hero-tag::before { content: '>'; color: var(--cyan-dim); }
+    .hero-headline {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #fff;
+      margin: 0 0 0.5rem;
+    }
+    .hero-headline span { color: var(--cyan); display: block; }
+    .hero-subhead {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin: 0 0 2rem;
+    }
+    .hero-sub {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      line-height: 1.8;
+      max-width: 420px;
+      margin-bottom: 2.5rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .btn-primary {
+      background: var(--orange);
+      color: #fff;
+      padding: 0.875rem 2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid var(--orange);
+      transition: background 0.2s;
+    }
+    .btn-primary:hover { background: #E65100; border-color: #E65100; }
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border-bright);
+      color: var(--cyan);
+      padding: 0.875rem 2rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-family: 'JetBrains Mono', monospace;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-outline:hover { background: var(--cyan-pale); border-color: var(--cyan); }
+    .hero-specs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: 1px solid var(--border);
+      background: var(--border);
+    }
+    .spec-cell {
+      background: var(--navy);
+      padding: 1rem;
+      text-align: center;
+    }
+    .spec-val { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--cyan); letter-spacing: 0.05em; }
+    .spec-key { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-faint); margin-top: 0.2rem; }
+
+    /* SECTIONS */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 3rem; }
+    section { padding: 7rem 0; }
+    .sec-tag {
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--cyan-dim);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .sec-tag::before { content: '//'; color: var(--text-faint); }
+    .sec-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #fff;
+      margin: 0 0 0.5rem;
+      line-height: 1;
+    }
+    .sec-title span { color: var(--cyan); }
+    .sec-sub { font-size: 0.8rem; color: var(--text-dim); line-height: 1.8; max-width: 500px; margin-bottom: 3.5rem; }
+    .panel-rule { width: 100%; height: 1px; background: var(--border); margin: 0; }
+
+    /* PRODUCTS */
+    #products { background: var(--navy2); }
+    .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
+    .prod-card {
+      background: var(--navy);
+      padding: 2rem 1.75rem;
+      border-top: 2px solid transparent;
+      transition: border-color 0.3s, background 0.2s;
+      position: relative;
+    }
+    .prod-card:hover { border-top-color: var(--cyan); background: var(--navy2); }
+    /* Corner accent */
+    .prod-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 20px; height: 20px;
+      border-bottom: 1px solid var(--border-bright);
+      border-right: 1px solid var(--border-bright);
+      transition: width 0.3s, height 0.3s;
+    }
+    .prod-card:hover::after { width: 32px; height: 32px; }
+    .prod-id { font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; }
+    .prod-img-wrap { height: 160px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; }
+    .prod-img { max-height: 140px; width: auto; filter: drop-shadow(0 0 20px rgba(0,191,255,0.15)); transition: filter 0.3s; }
+    .prod-card:hover .prod-img { filter: drop-shadow(0 0 30px rgba(0,191,255,0.35)); }
+    .prod-name { font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #fff; margin: 0 0 0.5rem; }
+    .prod-name span { color: var(--cyan); }
+    .prod-desc { font-size: 0.75rem; color: var(--text-dim); line-height: 1.7; margin-bottom: 1.25rem; }
+    .prod-data { display: flex; flex-direction: column; gap: 0.3rem; }
+    .prod-data-row { display: flex; justify-content: space-between; font-size: 0.65rem; padding: 0.3rem 0; border-bottom: 1px solid var(--border); }
+    .pd-key { color: var(--text-faint); }
+    .pd-val { color: var(--cyan-dim); font-weight: 700; }
+
+    /* USP */
+    #why { background: var(--navy); }
+    .usp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); }
+    .usp-card {
+      background: var(--navy);
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s;
+    }
+    .usp-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 1px;
+      background: var(--cyan);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .usp-card:hover { background: var(--navy2); }
+    .usp-card:hover::before { transform: scaleX(1); }
+    .usp-num { font-family: 'Rajdhani', sans-serif; font-size: 4rem; font-weight: 700; color: var(--text-faint); line-height: 1; margin-bottom: 1rem; letter-spacing: 0.1em; }
+    .usp-name { font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #fff; margin-bottom: 0.75rem; }
+    .usp-name span { color: var(--cyan); }
+    .usp-text { font-size: 0.75rem; color: var(--text-dim); line-height: 1.8; }
+
+    /* MATERIALS */
+    #materials { background: var(--navy2); }
+    .mat-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border); }
+    .mat-table th {
+      padding: 0.875rem 1.25rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cyan-dim);
+      font-weight: 700;
+      text-align: left;
+      border-bottom: 1px solid var(--border-bright);
+      background: var(--navy);
+      font-family: 'Rajdhani', sans-serif;
+    }
+    .mat-table th:not(:first-child) { text-align: center; }
+    .mat-table td {
+      padding: 0.875rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.7);
+      font-family: 'JetBrains Mono', monospace;
+      transition: background 0.15s;
+    }
+    .mat-table td:not(:first-child) { text-align: center; }
+    .mat-table tr:hover td { background: var(--cyan-pale); }
+    .badge-opt {
+      display: inline-block;
+      background: rgba(0,191,255,0.15);
+      color: var(--cyan);
+      border: 1px solid rgba(0,191,255,0.3);
+      padding: 0.15rem 0.5rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .badge-good {
+      display: inline-block;
+      background: var(--orange-pale);
+      color: var(--orange);
+      border: 1px solid rgba(245,124,0,0.3);
+      padding: 0.15rem 0.5rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .badge-pos {
+      display: inline-block;
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.3);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 0.15rem 0.5rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .badge-none { color: var(--text-faint); font-size: 0.8rem; }
+
+    /* INDUSTRIES */
+    #industries { background: var(--navy); }
+    .ind-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); }
+    .ind-item {
+      background: var(--navy);
+      padding: 2rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s;
+    }
+    .ind-item:hover { background: var(--navy2); }
+    .ind-item::after {
+      content: attr(data-num);
+      position: absolute;
+      bottom: -0.5rem; right: 1rem;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 5rem;
+      font-weight: 700;
+      color: var(--text-faint);
+      line-height: 1;
+      letter-spacing: 0.1em;
+    }
+    .ind-icon { font-size: 2rem; margin-bottom: 0.75rem; position: relative; z-index: 1; }
+    .ind-name { font-family: 'Rajdhani', sans-serif; font-size: 0.875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.8); position: relative; z-index: 1; }
+
+    /* STATS */
+    .stats-strip { background: var(--navy2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .stats-inner { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .stat-block { padding: 2.5rem 2rem; text-align: center; border-right: 1px solid var(--border); }
+    .stat-block:last-child { border: none; }
+    .stat-num { font-family: 'Rajdhani', sans-serif; font-size: 3rem; font-weight: 700; color: var(--cyan); letter-spacing: 0.1em; line-height: 1; }
+    .stat-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-faint); margin-top: 0.4rem; }
+
+    /* DEALER */
+    #dealer { background: var(--navy2); }
+    .dealer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+    .d-label { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--orange); margin-bottom: 1rem; }
+    .d-title { font-family: 'Rajdhani', sans-serif; font-size: 2.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #fff; margin: 0 0 1rem; line-height: 1.1; }
+    .d-title span { color: var(--cyan); }
+    .d-text { font-size: 0.8rem; color: var(--text-dim); line-height: 1.8; margin-bottom: 2rem; }
+    .dealer-form { display: flex; flex-direction: column; gap: 1px; background: var(--border); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+    .form-input {
+      background: var(--navy);
+      border: none;
+      outline: none;
+      color: rgba(255,255,255,0.9);
+      padding: 0.875rem 1rem;
+      font-size: 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
+      width: 100%;
+      transition: background 0.2s;
+    }
+    .form-input:focus { background: var(--navy2); outline: 1px solid var(--cyan); }
+    .form-input::placeholder { color: var(--text-faint); }
+    .form-select { appearance: none; cursor: pointer; }
+    .form-submit {
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      padding: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .form-submit:hover { background: #E65100; }
+
+    /* FOOTER */
+    footer { background: #050E17; padding: 4rem 0 2rem; border-top: 1px solid var(--border); }
+    .footer-logo-large {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.08);
+      margin-bottom: 2.5rem;
+      line-height: 1;
+    }
+    .footer-logo-large span { color: rgba(0,191,255,0.1); }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand-text { font-family: 'Rajdhani', sans-serif; font-size: 1.5rem; font-weight: 700; letter-spacing: 0.1em; color: #fff; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .footer-brand-text span { color: var(--cyan); }
+    .footer-tagline { font-size: 0.7rem; color: var(--text-faint); line-height: 1.7; max-width: 240px; }
+    .footer-col-title { font-size: 0.55rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 1.25rem; font-weight: 700; font-family: 'Rajdhani', sans-serif; }
+    .footer-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-links a { color: var(--text-dim); text-decoration: none; font-size: 0.75rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--cyan); }
+    .footer-bottom { border-top: 1px solid var(--border); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; }
+    .footer-copy { font-size: 0.65rem; color: var(--text-faint); letter-spacing: 0.1em; }
+
+    /* RESPONSIVE */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .container { padding: 0 1.5rem; }
+      section { padding: 5rem 0; }
+      .hero-left { padding: 7rem 1.5rem 4rem; }
+      .hero-specs { grid-template-columns: repeat(3, 1fr); }
+      .products-grid { grid-template-columns: 1fr; }
+      .usp-grid { grid-template-columns: 1fr; }
+      .ind-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-inner { grid-template-columns: repeat(2, 1fr); }
+      .dealer-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">[ X ]</button>
+    <a href="#products">Products</a>
+    <a href="#why">Engineering</a>
+    <a href="#industries">Industries</a>
+    <a href="#dealer">Contact</a>
+  </div>
+
+  <nav>
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+      <a href="/" class="nav-logo">ROTA<span>CUT</span></a>
+      <span class="nav-badge">TM</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#products">Products</a></li>
+      <li><a href="#why">Engineering</a></li>
+      <li><a href="#materials">Materials</a></li>
+      <li><a href="#industries">Industries</a></li>
+    </ul>
+    <a href="#dealer" class="nav-cta">[ Request Quote ]</a>
+    <div class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-tag">Product Specification — Rev. 2026</div>
+      <h1 class="hero-headline">
+        Precision<br />
+        <span>Annular</span><br />
+        Cutters
+      </h1>
+      <div class="hero-subhead">Engineered to Perform</div>
+      <p class="hero-sub">// Tungsten Carbide Tipped &amp; High Speed Steel annular cutters. Sandvik carbide tips. Zero run-out shanks. Trusted in 30+ countries.</p>
+      <div class="hero-actions">
+        <a href="#products" class="btn-primary">View Products</a>
+        <a href="#dealer" class="btn-outline">Request Quote</a>
+      </div>
+      <div class="hero-specs">
+        <div class="spec-cell">
+          <div class="spec-val">11–65</div>
+          <div class="spec-key">Ø mm Range</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-val">25–100</div>
+          <div class="spec-key">DoC mm</div>
+        </div>
+        <div class="spec-cell">
+          <div class="spec-val">54+</div>
+          <div class="spec-key">SKUs</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-img-wrap">
+        <img src="/products/all-in-one.png" alt="Rotacut Annular Cutters" />
+        <div class="ann ann-1">Ø 22mm TCT</div>
+        <div class="ann ann-2">Weldon Shank</div>
+        <div class="ann ann-3">Sandvik Tips</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS -->
+  <section id="products">
+    <div class="container">
+      <div class="sec-tag">Product Catalogue</div>
+      <h2 class="sec-title">Cutting <span>Solutions</span></h2>
+      <p class="sec-sub">// Four product lines engineered for every material and application from mild steel to exotic alloys.</p>
+    </div>
+    <div class="products-grid" style="max-width:1200px;margin:0 auto;">
+      <div class="prod-card">
+        <div class="prod-id">// RCT-TCT-001</div>
+        <div class="prod-img-wrap">
+          <img src="/products/22x75.png" alt="TCT" class="prod-img" loading="lazy" />
+        </div>
+        <h3 class="prod-name">TCT <span>Annular</span></h3>
+        <p class="prod-desc">Sandvik carbide for steel, stainless steel, aluminium, and exotic materials.</p>
+        <div class="prod-data">
+          <div class="prod-data-row"><span class="pd-key">Diameter</span><span class="pd-val">Ø 11–65mm</span></div>
+          <div class="prod-data-row"><span class="pd-key">DoC</span><span class="pd-val">35–100mm</span></div>
+          <div class="prod-data-row"><span class="pd-key">Shank</span><span class="pd-val">Weldon 19.05</span></div>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-id">// RCT-RAIL-001</div>
+        <div class="prod-img-wrap">
+          <img src="/products/22x35.png" alt="Rail" class="prod-img" loading="lazy" />
+        </div>
+        <h3 class="prod-name">TCT <span>Rail</span></h3>
+        <p class="prod-desc">Purpose-built for railway drilling. Optimised geometry for rail and infrastructure.</p>
+        <div class="prod-data">
+          <div class="prod-data-row"><span class="pd-key">Diameter</span><span class="pd-val">Ø 12–36mm</span></div>
+          <div class="prod-data-row"><span class="pd-key">DoC</span><span class="pd-val">25–50mm</span></div>
+          <div class="prod-data-row"><span class="pd-key">Grade</span><span class="pd-val">Rail Certified</span></div>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-id">// RCT-HSS-001</div>
+        <div class="prod-img-wrap">
+          <img src="/products/22x100.png" alt="HSS" class="prod-img" loading="lazy" />
+        </div>
+        <h3 class="prod-name">HSS <span>Annular</span></h3>
+        <p class="prod-desc">High Speed Steel for plastics, brass, grey cast iron, and mild steel.</p>
+        <div class="prod-data">
+          <div class="prod-data-row"><span class="pd-key">Diameter</span><span class="pd-val">Ø 12–60mm</span></div>
+          <div class="prod-data-row"><span class="pd-key">DoC</span><span class="pd-val">30–100mm</span></div>
+          <div class="prod-data-row"><span class="pd-key">Shank</span><span class="pd-val">Universal 31.75</span></div>
+        </div>
+      </div>
+      <div class="prod-card">
+        <div class="prod-id">// RCT-PP-001</div>
+        <div class="prod-img-wrap">
+          <img src="/products/22x75b.png" alt="Pilot Pins" class="prod-img" loading="lazy" />
+        </div>
+        <h3 class="prod-name"><span>Pilot</span> Pins</h3>
+        <p class="prod-desc">Precision accessories for cutter centration, lubrication, and slug ejection.</p>
+        <div class="prod-data">
+          <div class="prod-data-row"><span class="pd-key">Compat.</span><span class="pd-val">All Cutters</span></div>
+          <div class="prod-data-row"><span class="pd-key">Tolerance</span><span class="pd-val">Precision Ground</span></div>
+          <div class="prod-data-row"><span class="pd-key">Shanks</span><span class="pd-val">Weldon + Universal</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section id="why">
+    <div class="container">
+      <div class="sec-tag">Engineering Specification</div>
+      <h2 class="sec-title">Why <span>Rotacut</span></h2>
+      <p class="sec-sub">// Six engineering principles ensuring maximum performance on every cut.</p>
+      <div class="usp-grid">
+        <div class="usp-card"><div class="usp-num">01</div><h3 class="usp-name"><span>Sandvik</span> Carbide Tips</h3><p class="usp-text">Extremely hard tungsten carbide cutting teeth from Sandvik — the world leader in carbide tooling — for the most demanding drilling tasks.</p></div>
+        <div class="usp-card"><div class="usp-num">02</div><h3 class="usp-name"><span>Optimised</span> Geometry</h3><p class="usp-text">Offset tooth positioning and continuous pre-cut design for lowest heat development and burr-free finishes.</p></div>
+        <div class="usp-card"><div class="usp-num">03</div><h3 class="usp-name"><span>Precision</span> Shanks</h3><p class="usp-text">Weldon 19.05mm and Universal 31.75mm shanks with close-tolerance fitment for zero run-out.</p></div>
+        <div class="usp-card"><div class="usp-num">04</div><h3 class="usp-name">Optimal <span>Chip Removal</span></h3><p class="usp-text">Engineered spiral flute angles for maximum chip evacuation — keeping cuts clean, cool, and consistent.</p></div>
+        <div class="usp-card"><div class="usp-num">05</div><h3 class="usp-name">Stability &amp; <span>Durability</span></h3><p class="usp-text">Special alloy body with tapered inside fitment prevents seizing — protecting cutter and magnetic drill.</p></div>
+        <div class="usp-card"><div class="usp-num">06</div><h3 class="usp-name"><span>Complete</span> Size Range</h3><p class="usp-text">11–65mm diameter, 25–100mm depth. Custom sizes on request for OEM and special applications.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MATERIALS -->
+  <section id="materials">
+    <div class="container">
+      <div class="sec-tag">Compatibility Matrix</div>
+      <h2 class="sec-title">Material <span>Guide</span></h2>
+      <p class="sec-sub">// Cutter selection by workpiece material. OPT = Optimal, GOOD = Good, POS = Possible.</p>
+      <div style="overflow-x:auto;">
+        <table class="mat-table">
+          <thead>
+            <tr>
+              <th>Material / Workpiece</th>
+              <th>TCT Annular</th>
+              <th>TCT Rail</th>
+              <th>HSS Annular</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Plastics</td><td><span class="badge-good">GOOD</span></td><td><span class="badge-none">N/A</span></td><td><span class="badge-opt">OPT</span></td></tr>
+            <tr><td>Brass / Copper / Tin</td><td><span class="badge-good">GOOD</span></td><td><span class="badge-none">N/A</span></td><td><span class="badge-opt">OPT</span></td></tr>
+            <tr><td>Grey Cast Iron</td><td><span class="badge-opt">OPT</span></td><td><span class="badge-none">N/A</span></td><td><span class="badge-good">GOOD</span></td></tr>
+            <tr><td>Mild Steel (≤500 N/mm²)</td><td><span class="badge-opt">OPT</span></td><td><span class="badge-none">N/A</span></td><td><span class="badge-opt">OPT</span></td></tr>
+            <tr><td>High Tensile Steel (≤800 N/mm²)</td><td><span class="badge-opt">OPT</span></td><td><span class="badge-none">N/A</span></td><td><span class="badge-pos">POS</span></td></tr>
+            <tr><td>Stainless Steel</td><td><span class="badge-opt">OPT</span></td><td><span class="badge-none">N/A</span></td><td><span class="badge-none">N/A</span></td></tr>
+            <tr><td>Aluminium</td><td><span class="badge-opt">OPT</span></td><td><span class="badge-none">N/A</span></td><td><span class="badge-good">GOOD</span></td></tr>
+            <tr><td>Exotic Materials (Inconel, HARDOX)</td><td><span class="badge-opt">OPT</span></td><td><span class="badge-none">N/A</span></td><td><span class="badge-none">N/A</span></td></tr>
+            <tr><td>Railway Rails</td><td><span class="badge-good">GOOD</span></td><td><span class="badge-opt">OPT</span></td><td><span class="badge-none">N/A</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- INDUSTRIES -->
+  <section id="industries">
+    <div class="container">
+      <div class="sec-tag">Application Domains</div>
+      <h2 class="sec-title">Industries <span>Served</span></h2>
+      <p class="sec-sub">// Trusted across 8 primary industrial verticals worldwide.</p>
+    </div>
+    <div class="ind-grid" style="max-width:1200px;margin:0 auto;">
+      <div class="ind-item" data-num="01"><div class="ind-icon">🏗️</div><div class="ind-name">Steel Fabrication</div></div>
+      <div class="ind-item" data-num="02"><div class="ind-icon">🚂</div><div class="ind-name">Railway &amp; Infrastructure</div></div>
+      <div class="ind-item" data-num="03"><div class="ind-icon">⚓</div><div class="ind-name">Shipbuilding &amp; Marine</div></div>
+      <div class="ind-item" data-num="04"><div class="ind-icon">⚡</div><div class="ind-name">Power &amp; Energy</div></div>
+      <div class="ind-item" data-num="05"><div class="ind-icon">🛢️</div><div class="ind-name">Oil &amp; Gas</div></div>
+      <div class="ind-item" data-num="06"><div class="ind-icon">⛏️</div><div class="ind-name">Mining &amp; Equipment</div></div>
+      <div class="ind-item" data-num="07"><div class="ind-icon">⚙️</div><div class="ind-name">General Engineering</div></div>
+      <div class="ind-item" data-num="08"><div class="ind-icon">✈️</div><div class="ind-name">Automotive &amp; Aerospace</div></div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="container">
+      <div class="stats-inner">
+        <div class="stat-block"><div class="stat-num">500+</div><div class="stat-label">Authorised Dealers</div></div>
+        <div class="stat-block"><div class="stat-num">30+</div><div class="stat-label">Countries Served</div></div>
+        <div class="stat-block"><div class="stat-num">54+</div><div class="stat-label">SKUs Available</div></div>
+        <div class="stat-block"><div class="stat-num">15+</div><div class="stat-label">Years Expertise</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEALER -->
+  <section id="dealer">
+    <div class="container">
+      <div class="sec-tag">Procurement &amp; Partnerships</div>
+      <h2 class="sec-title">Request a <span>Quote</span></h2>
+      <p class="sec-sub">// Become an authorised dealer or source Rotacut products for your project. Response within 24 hours.</p>
+      <div class="dealer-grid">
+        <div>
+          <div class="d-label">// Contact Information</div>
+          <h3 class="d-title">Get <span>Rotacut</span><br />Products</h3>
+          <p class="d-text">Our authorised dealer network spans 30+ countries. Whether you need direct supply or want to carry our products, we're ready to assist you.</p>
+          <p style="font-size:0.75rem;color:var(--text-dim);margin-bottom:0.5rem;">📧 info@rotacut.com</p>
+          <p style="font-size:0.75rem;color:var(--text-dim);margin-bottom:0.5rem;">🌐 www.rotacut.com</p>
+          <div style="margin-top:2rem;">
+            <a href="#" class="btn-outline" style="display:inline-block;">Download Catalogue →</a>
+          </div>
+        </div>
+        <div id="contact">
+          <div class="d-label">// Enquiry Form</div>
+          <form class="dealer-form" onsubmit="return false;">
+            <div class="form-row">
+              <input class="form-input" type="text" placeholder="Name" />
+              <input class="form-input" type="text" placeholder="Company" />
+            </div>
+            <div class="form-row">
+              <input class="form-input" type="email" placeholder="Email" />
+              <input class="form-input" type="tel" placeholder="Phone" />
+            </div>
+            <select class="form-input form-select">
+              <option value="" disabled selected>Product Interest</option>
+              <option>TCT Annular Cutters</option>
+              <option>TCT Rail Cutters</option>
+              <option>HSS Annular Cutters</option>
+              <option>Pilot Pins</option>
+              <option>Full Range</option>
+            </select>
+            <textarea class="form-input" rows="3" placeholder="Message / Requirements" style="resize:vertical;"></textarea>
+            <button type="submit" class="form-submit">[ Send Enquiry ]</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-logo-large">ROTA<span>CUT</span>™</div>
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-text">ROTA<span>CUT</span>™</div>
+          <p class="footer-tagline">// Precision-Engineered Annular Cutters. Built to Perform. Trusted Worldwide.</p>
+        </div>
+        <div>
+          <p class="footer-col-title">// Products</p>
+          <ul class="footer-links">
+            <li><a href="#products">TCT Annular Cutters</a></li>
+            <li><a href="#products">TCT Rail Cutters</a></li>
+            <li><a href="#products">HSS Annular Cutters</a></li>
+            <li><a href="#products">Pilot Pins</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">// Company</p>
+          <ul class="footer-links">
+            <li><a href="#">About Rotacut</a></li>
+            <li><a href="#">Dealer Network</a></li>
+            <li><a href="#">Download Catalogue</a></li>
+            <li><a href="#dealer">Contact Us</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="footer-col-title">// Resources</p>
+          <ul class="footer-links">
+            <li><a href="#materials">Material Guide</a></li>
+            <li><a href="#">Spec Sheets</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2026 Rotacut. All rights reserved. | www.rotacut.com</p>
+        <a href="/" style="font-size:0.65rem;color:var(--text-faint);text-decoration:none;">← Design Picker</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -89,15 +89,9 @@ const base = import.meta.env.BASE_URL;
         background: linear-gradient(to right, rgba(0, 0, 0, 0.7) 40%, transparent);
       }
       .v4-preview {
-        background: #0d1b2a;
-        background-image:
-          linear-gradient(rgba(0, 191, 255, 0.08) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(0, 191, 255, 0.08) 1px, transparent 1px);
-        background-size: 30px 30px;
-      }
-      .v5-preview {
         background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 60%, #1b5e20 100%);
       }
+
       .tag {
         font-family: "Bebas Neue", sans-serif;
         font-size: 0.75rem;
@@ -120,7 +114,7 @@ const base = import.meta.env.BASE_URL;
           Choose Your<br /><span style="color:#CC0000;">Design</span>
         </h1>
         <p class="text-gray-400 mt-6 max-w-md mx-auto leading-relaxed text-sm">
-          Five distinct visual directions — each fully built. Review and pick the one that best
+          Four distinct visual directions — each fully built. Review and pick the one that best
           represents the Rotacut brand.
         </p>
       </div>
@@ -216,38 +210,7 @@ const base = import.meta.env.BASE_URL;
         <a href={`${base}/v4`} class="card">
           <div class="v4-preview card-preview">
             <div class="relative z-10">
-              <span class="tag" style="background:#00BFFF; color:#0d1b2a;">V4</span>
-              <h2
-                class="text-2xl font-bold mt-1"
-                style="color:#00BFFF; font-family:'Bebas Neue',sans-serif; letter-spacing:0.05em;"
-              >
-                Blueprint
-              </h2>
-            </div>
-          </div>
-          <div class="p-5" style="background:#0d1b2a; border-top:1px solid rgba(0,191,255,0.15);">
-            <p class="text-sm leading-relaxed" style="color:rgba(0,191,255,0.65);">
-              Technical engineering drawing aesthetic. Dark navy with blueprint grid and cyan
-              annotations.
-            </p>
-            <div class="flex gap-2 mt-4">
-              <span class="w-5 h-5 rounded-full border border-white/10" style="background:#0d1b2a;"
-              ></span>
-              <span class="w-5 h-5 rounded-full border border-white/10" style="background:#00BFFF;"
-              ></span>
-              <span class="w-5 h-5 rounded-full border border-white/10" style="background:#F57C00;"
-              ></span>
-              <span class="ml-auto text-xs self-center" style="color:rgba(0,191,255,0.4);"
-                >Rajdhani + JetBrains Mono →</span
-              >
-            </div>
-          </div>
-        </a>
-
-        <a href={`${base}/v5`} class="card">
-          <div class="v5-preview card-preview">
-            <div class="relative z-10">
-              <span class="tag text-white" style="background:#F57C00;">V5</span>
+              <span class="tag text-white" style="background:#F57C00;">V4</span>
               <h2
                 class="text-white text-2xl font-bold mt-1"
                 style="font-family:'Bebas Neue',sans-serif; letter-spacing:0.05em;"

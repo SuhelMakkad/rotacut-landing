@@ -13,6 +13,8 @@ import PencilRuler from "@lucide/astro/icons/pencil-ruler";
 import Target from "@lucide/astro/icons/target";
 import Wind from "@lucide/astro/icons/wind";
 import Shield from "@lucide/astro/icons/shield";
+import Award from "@lucide/astro/icons/award";
+import Crosshair from "@lucide/astro/icons/crosshair";
 import Ruler from "@lucide/astro/icons/ruler";
 import Mail from "@lucide/astro/icons/mail";
 import Globe from "@lucide/astro/icons/globe";
@@ -1182,14 +1184,14 @@ const base = import.meta.env.BASE_URL;
           <div class="hero-img-card">
             <img src={`${base}/products/white-bg-all.png`} alt="Rotacut Annular Cutters" />
             <div class="hero-float-badge top-right">
-              <div class="badge-icon">🏆</div>
+              <div class="badge-icon"><Award size={22} /></div>
               <div class="badge-text">
                 <div class="badge-title">Sandvik Certified</div>
                 <div class="badge-sub">Premium Carbide Tips</div>
               </div>
             </div>
             <div class="hero-float-badge bottom-left">
-              <div class="badge-icon">⚙️</div>
+              <div class="badge-icon"><Crosshair size={22} /></div>
               <div class="badge-text">
                 <div class="badge-title">Zero Run-Out</div>
                 <div class="badge-sub">Precision Ground Shanks</div>

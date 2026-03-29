@@ -1,754 +1,1351 @@
 ---
 import "../styles/global.css";
+import Building2 from "@lucide/astro/icons/building-2";
+import TrainFront from "@lucide/astro/icons/train-front";
+import Anchor from "@lucide/astro/icons/anchor";
+import Zap from "@lucide/astro/icons/zap";
+import Fuel from "@lucide/astro/icons/fuel";
+import Pickaxe from "@lucide/astro/icons/pickaxe";
+import Cog from "@lucide/astro/icons/cog";
+import Plane from "@lucide/astro/icons/plane";
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Rotacut — Precision Annular Cutters</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    :root {
-      --red: #CC0000;
-      --black: #0A0A0A;
-      --white: #F8F8F6;
-      --off-white: #F0EFE9;
-      --muted: #888880;
-    }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      background: var(--white);
-      color: var(--black);
-      font-family: 'Space Mono', monospace;
-      overflow-x: hidden;
-    }
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rotacut — Precision Annular Cutters</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style define:vars={{ "hero-img-bg": `url('${base}/products/all-in-one.png')` }}>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      :root {
+        --red: #cc0000;
+        --black: #0a0a0a;
+        --white: #f8f8f6;
+        --off-white: #f0efe9;
+        --muted: #888880;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--white);
+        color: var(--black);
+        font-family: "Space Mono", monospace;
+        overflow-x: hidden;
+      }
 
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.5rem 3rem;
-      mix-blend-mode: difference;
-    }
-    nav.light-nav {
-      mix-blend-mode: normal;
-      background: var(--white);
-      border-bottom: 1px solid rgba(0,0,0,0.1);
-    }
-    .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem;
-      font-weight: 900;
-      color: #fff;
-      text-decoration: none;
-      letter-spacing: -0.02em;
-    }
-    nav.light-nav .nav-logo { color: var(--black); }
-    .nav-links { display: flex; gap: 2.5rem; list-style: none; margin: 0; padding: 0; }
-    .nav-links a {
-      color: rgba(255,255,255,0.8);
-      text-decoration: none;
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      font-weight: 400;
-      transition: color 0.2s;
-    }
-    nav.light-nav .nav-links a { color: var(--muted); }
-    .nav-links a:hover { color: #fff; }
-    nav.light-nav .nav-links a:hover { color: var(--black); }
-    .nav-issue {
-      font-size: 0.65rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.5);
-    }
-    nav.light-nav .nav-issue { color: var(--muted); }
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
-    .hamburger span { display: block; width: 22px; height: 1px; background: #fff; }
-    nav.light-nav .hamburger span { background: var(--black); }
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: var(--black);
-      z-index: 99;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 2rem;
-    }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a { color: #fff; text-decoration: none; font-family: 'Playfair Display', serif; font-size: 2.5rem; font-style: italic; }
-    .mobile-close { position: absolute; top: 1.5rem; right: 3rem; color: #fff; cursor: pointer; background: none; border: none; font-size: 1.5rem; }
+      /* NAV */
+      nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.5rem 3rem;
+        mix-blend-mode: difference;
+      }
+      nav.light-nav {
+        mix-blend-mode: normal;
+        background: var(--white);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      .nav-logo {
+        font-family: "Playfair Display", serif;
+        font-size: 1.6rem;
+        font-weight: 900;
+        color: #fff;
+        text-decoration: none;
+        letter-spacing: -0.02em;
+      }
+      nav.light-nav .nav-logo {
+        color: var(--black);
+      }
+      .nav-links {
+        display: flex;
+        gap: 2.5rem;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      .nav-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        font-weight: 400;
+        transition: color 0.2s;
+      }
+      nav.light-nav .nav-links a {
+        color: var(--muted);
+      }
+      .nav-links a:hover {
+        color: #fff;
+      }
+      nav.light-nav .nav-links a:hover {
+        color: var(--black);
+      }
+      .nav-issue {
+        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.5);
+      }
+      nav.light-nav .nav-issue {
+        color: var(--muted);
+      }
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+      }
+      .hamburger span {
+        display: block;
+        width: 22px;
+        height: 1px;
+        background: #fff;
+      }
+      nav.light-nav .hamburger span {
+        background: var(--black);
+      }
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: var(--black);
+        z-index: 99;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+      }
+      .mobile-menu.open {
+        display: flex;
+      }
+      .mobile-menu a {
+        color: #fff;
+        text-decoration: none;
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        font-style: italic;
+      }
+      .mobile-close {
+        position: absolute;
+        top: 1.5rem;
+        right: 3rem;
+        color: #fff;
+        cursor: pointer;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+      }
 
-    /* HERO */
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      background: var(--black);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      overflow: hidden;
-    }
-    .hero-img {
-      position: absolute;
-      inset: 0;
-      background: url('/products/all-in-one.png') center/cover no-repeat;
-      opacity: 0.5;
-    }
-    .hero-img::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, transparent 30%, var(--black) 100%);
-    }
-    .hero-text {
-      position: relative;
-      z-index: 2;
-      padding: 0 3rem 5rem;
-    }
-    .hero-issue {
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .hero-issue::before { content: ''; display: block; width: 3rem; height: 1px; background: var(--red); }
-    .hero-headline {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(4rem, 12vw, 10rem);
-      font-weight: 900;
-      line-height: 0.88;
-      letter-spacing: -0.03em;
-      color: #fff;
-      margin: 0 0 2rem;
-      max-width: 900px;
-    }
-    .hero-headline em { font-style: italic; color: var(--red); }
-    .hero-foot {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 2rem;
-      flex-wrap: wrap;
-    }
-    .hero-sub {
-      font-size: 0.875rem;
-      color: rgba(255,255,255,0.6);
-      max-width: 380px;
-      line-height: 1.75;
-      font-family: 'Space Mono', monospace;
-    }
-    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-    .btn-primary {
-      background: var(--red);
-      color: #fff;
-      padding: 0.875rem 2rem;
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      font-weight: 700;
-      font-family: 'Space Mono', monospace;
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-    .btn-primary:hover { background: #990000; }
-    .btn-outline {
-      border: 1px solid rgba(255,255,255,0.3);
-      color: #fff;
-      padding: 0.875rem 2rem;
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      font-family: 'Space Mono', monospace;
-      text-decoration: none;
-      transition: border-color 0.2s;
-    }
-    .btn-outline:hover { border-color: #fff; }
-    .hero-number {
-      font-family: 'Playfair Display', serif;
-      font-size: 8rem;
-      font-weight: 900;
-      color: rgba(255,255,255,0.04);
-      position: absolute;
-      right: 3rem;
-      top: 50%;
-      transform: translateY(-50%);
-      line-height: 1;
-      pointer-events: none;
-    }
+      /* HERO */
+      .hero {
+        position: relative;
+        min-height: 100vh;
+        background: var(--black);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        overflow: hidden;
+      }
+      .hero-img {
+        position: absolute;
+        inset: 0;
+        background: var(--hero-img-bg) center/cover no-repeat;
+        opacity: 0.5;
+      }
+      .hero-img::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, transparent 30%, var(--black) 100%);
+      }
+      .hero-text {
+        position: relative;
+        z-index: 2;
+        padding: 0 3rem 5rem;
+      }
+      .hero-issue {
+        font-size: 0.65rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .hero-issue::before {
+        content: "";
+        display: block;
+        width: 3rem;
+        height: 1px;
+        background: var(--red);
+      }
+      .hero-headline {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(4rem, 12vw, 10rem);
+        font-weight: 900;
+        line-height: 0.88;
+        letter-spacing: -0.03em;
+        color: #fff;
+        margin: 0 0 2rem;
+        max-width: 900px;
+      }
+      .hero-headline em {
+        font-style: italic;
+        color: var(--red);
+      }
+      .hero-foot {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+      .hero-sub {
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.6);
+        max-width: 380px;
+        line-height: 1.75;
+        font-family: "Space Mono", monospace;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+      .btn-primary {
+        background: var(--red);
+        color: #fff;
+        padding: 0.875rem 2rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        font-weight: 700;
+        font-family: "Space Mono", monospace;
+        text-decoration: none;
+        transition: background 0.2s;
+      }
+      .btn-primary:hover {
+        background: #990000;
+      }
+      .btn-outline {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: #fff;
+        padding: 0.875rem 2rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        font-family: "Space Mono", monospace;
+        text-decoration: none;
+        transition: border-color 0.2s;
+      }
+      .btn-outline:hover {
+        border-color: #fff;
+      }
+      .hero-number {
+        font-family: "Playfair Display", serif;
+        font-size: 8rem;
+        font-weight: 900;
+        color: rgba(255, 255, 255, 0.04);
+        position: absolute;
+        right: 3rem;
+        top: 50%;
+        transform: translateY(-50%);
+        line-height: 1;
+        pointer-events: none;
+      }
 
-    /* LAYOUT HELPERS */
-    .container { max-width: 1200px; margin: 0 auto; padding: 0 3rem; }
-    section { padding: 8rem 0; }
-    .sec-number {
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-    .sec-number::before { content: ''; display: block; width: 2rem; height: 1px; background: var(--red); }
-    .sec-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.5rem, 5vw, 4.5rem);
-      font-weight: 900;
-      line-height: 1;
-      letter-spacing: -0.03em;
-      margin: 0 0 2rem;
-    }
-    .sec-title em { font-style: italic; color: var(--red); }
-    .sec-sub { font-size: 0.8rem; color: var(--muted); line-height: 1.8; max-width: 440px; margin-bottom: 4rem; }
+      /* LAYOUT HELPERS */
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 3rem;
+      }
+      section {
+        padding: 8rem 0;
+      }
+      .sec-number {
+        font-size: 0.65rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+      .sec-number::before {
+        content: "";
+        display: block;
+        width: 2rem;
+        height: 1px;
+        background: var(--red);
+      }
+      .sec-title {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(2.5rem, 5vw, 4.5rem);
+        font-weight: 900;
+        line-height: 1;
+        letter-spacing: -0.03em;
+        margin: 0 0 2rem;
+      }
+      .sec-title em {
+        font-style: italic;
+        color: var(--red);
+      }
+      .sec-sub {
+        font-size: 0.8rem;
+        color: var(--muted);
+        line-height: 1.8;
+        max-width: 440px;
+        margin-bottom: 4rem;
+      }
 
-    /* PRODUCTS — editorial grid */
-    #products { background: var(--black); color: #fff; }
-    #products .sec-title { color: #fff; }
-    #products .sec-sub { color: rgba(255,255,255,0.5); }
-    .products-editorial {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2px;
-      background: rgba(255,255,255,0.1);
-    }
-    .prod-feature {
-      background: var(--black);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-    }
-    .prod-feature:first-child { grid-column: span 2; grid-template-columns: 1fr 1fr; }
-    .prod-img-side {
-      background: #111;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 3rem;
-      min-height: 280px;
-    }
-    .prod-img-side img { max-height: 200px; width: auto; object-fit: contain; filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5)); transition: transform 0.4s; }
-    .prod-img-side:hover img { transform: scale(1.05); }
-    .prod-text-side { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
-    .prod-tag { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--red); margin-bottom: 0.75rem; font-weight: 700; }
-    .prod-name { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: #fff; margin: 0 0 1rem; line-height: 1.1; letter-spacing: -0.02em; }
-    .prod-name em { font-style: italic; }
-    .prod-desc { font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.75; margin-bottom: 1.5rem; }
-    .prod-specs { display: flex; flex-direction: column; gap: 0.4rem; }
-    .ps-row { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
-    .ps-key { color: rgba(255,255,255,0.35); }
-    .ps-val { color: rgba(255,255,255,0.8); font-weight: 700; }
-    /* small product cards (bottom 3) */
-    .prod-small {
-      background: #111;
-      display: grid;
-      grid-template-columns: 120px 1fr;
-    }
-    .prod-small-img { background: #0a0a0a; display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
-    .prod-small-img img { max-height: 100px; width: auto; object-fit: contain; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4)); }
-    .prod-small-text { padding: 1.5rem 2rem; }
+      /* PRODUCTS — editorial grid */
+      #products {
+        background: var(--black);
+        color: #fff;
+      }
+      #products .sec-title {
+        color: #fff;
+      }
+      #products .sec-sub {
+        color: rgba(255, 255, 255, 0.5);
+      }
+      .products-editorial {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .prod-feature {
+        background: var(--black);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+      }
+      .prod-feature:first-child {
+        grid-column: span 2;
+        grid-template-columns: 1fr 1fr;
+      }
+      .prod-img-side {
+        background: #111;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 3rem;
+        min-height: 280px;
+      }
+      .prod-img-side img {
+        max-height: 200px;
+        width: auto;
+        object-fit: contain;
+        filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+        transition: transform 0.4s;
+      }
+      .prod-img-side:hover img {
+        transform: scale(1.05);
+      }
+      .prod-text-side {
+        padding: 3rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .prod-tag {
+        font-size: 0.6rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--red);
+        margin-bottom: 0.75rem;
+        font-weight: 700;
+      }
+      .prod-name {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 900;
+        color: #fff;
+        margin: 0 0 1rem;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+      }
+      .prod-name em {
+        font-style: italic;
+      }
+      .prod-desc {
+        font-size: 0.8rem;
+        color: rgba(255, 255, 255, 0.5);
+        line-height: 1.75;
+        margin-bottom: 1.5rem;
+      }
+      .prod-specs {
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
+      .ps-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.7rem;
+        padding: 0.4rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      }
+      .ps-key {
+        color: rgba(255, 255, 255, 0.35);
+      }
+      .ps-val {
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 700;
+      }
+      /* small product cards (bottom 3) */
+      .prod-small {
+        background: #111;
+        display: grid;
+        grid-template-columns: 120px 1fr;
+      }
+      .prod-small-img {
+        background: #0a0a0a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+      }
+      .prod-small-img img {
+        max-height: 100px;
+        width: auto;
+        object-fit: contain;
+        filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+      }
+      .prod-small-text {
+        padding: 1.5rem 2rem;
+      }
 
-    /* USP — alternating text/number layout */
-    #why { background: var(--off-white); }
-    .usp-list { display: flex; flex-direction: column; gap: 0; border-top: 1px solid rgba(0,0,0,0.1); }
-    .usp-row {
-      display: grid;
-      grid-template-columns: 80px 1fr 1fr;
-      gap: 0;
-      border-bottom: 1px solid rgba(0,0,0,0.1);
-      padding: 2.5rem 0;
-      align-items: start;
-      transition: background 0.2s;
-    }
-    .usp-row:hover { background: rgba(204,0,0,0.03); }
-    .usp-row-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      font-weight: 900;
-      font-style: italic;
-      color: rgba(0,0,0,0.15);
-      padding-top: 0.25rem;
-    }
-    .usp-row-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      line-height: 1.2;
-      padding-right: 2rem;
-    }
-    .usp-row-text { font-size: 0.8rem; color: var(--muted); line-height: 1.8; }
+      /* USP — alternating text/number layout */
+      #why {
+        background: var(--off-white);
+      }
+      .usp-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      .usp-row {
+        display: grid;
+        grid-template-columns: 80px 1fr 1fr;
+        gap: 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 2.5rem 0;
+        align-items: start;
+        transition: background 0.2s;
+      }
+      .usp-row:hover {
+        background: rgba(204, 0, 0, 0.03);
+      }
+      .usp-row-num {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 900;
+        font-style: italic;
+        color: rgba(0, 0, 0, 0.15);
+        padding-top: 0.25rem;
+      }
+      .usp-row-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        padding-right: 2rem;
+      }
+      .usp-row-text {
+        font-size: 0.8rem;
+        color: var(--muted);
+        line-height: 1.8;
+      }
 
-    /* MATERIALS */
-    #materials { background: var(--white); }
-    .mat-wrap { border: 1px solid rgba(0,0,0,0.1); overflow: hidden; }
-    .mat-header {
-      display: grid;
-      grid-template-columns: 1fr 100px 100px 100px;
-      background: var(--black);
-      padding: 1rem 1.5rem;
-      gap: 1rem;
-    }
-    .mat-header span { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.5); font-weight: 700; text-align: center; }
-    .mat-header span:first-child { text-align: left; }
-    .mat-row {
-      display: grid;
-      grid-template-columns: 1fr 100px 100px 100px;
-      padding: 1rem 1.5rem;
-      gap: 1rem;
-      border-bottom: 1px solid rgba(0,0,0,0.06);
-      align-items: center;
-      transition: background 0.15s;
-    }
-    .mat-row:last-child { border-bottom: none; }
-    .mat-row:hover { background: rgba(204,0,0,0.03); }
-    .mat-name { font-size: 0.875rem; font-family: 'Space Mono', monospace; color: var(--black); }
-    .mat-cell { text-align: center; }
-    .dot { font-size: 0.9rem; }
-    .d-opt { color: var(--red); }
-    .d-good { color: rgba(0,0,0,0.35); }
-    .d-pos { color: rgba(0,0,0,0.15); }
-    .d-none { color: rgba(0,0,0,0.1); }
+      /* MATERIALS */
+      #materials {
+        background: var(--white);
+      }
+      .mat-wrap {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+      .mat-header {
+        display: grid;
+        grid-template-columns: 1fr 100px 100px 100px;
+        background: var(--black);
+        padding: 1rem 1.5rem;
+        gap: 1rem;
+      }
+      .mat-header span {
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.5);
+        font-weight: 700;
+        text-align: center;
+      }
+      .mat-header span:first-child {
+        text-align: left;
+      }
+      .mat-row {
+        display: grid;
+        grid-template-columns: 1fr 100px 100px 100px;
+        padding: 1rem 1.5rem;
+        gap: 1rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+        align-items: center;
+        transition: background 0.15s;
+      }
+      .mat-row:last-child {
+        border-bottom: none;
+      }
+      .mat-row:hover {
+        background: rgba(204, 0, 0, 0.03);
+      }
+      .mat-name {
+        font-size: 0.875rem;
+        font-family: "Space Mono", monospace;
+        color: var(--black);
+      }
+      .mat-cell {
+        text-align: center;
+      }
+      .dot {
+        font-size: 0.9rem;
+      }
+      .d-opt {
+        color: var(--red);
+      }
+      .d-good {
+        color: rgba(0, 0, 0, 0.35);
+      }
+      .d-pos {
+        color: rgba(0, 0, 0, 0.15);
+      }
+      .d-none {
+        color: rgba(0, 0, 0, 0.1);
+      }
 
-    /* INDUSTRIES */
-    #industries { background: var(--black); color: #fff; }
-    #industries .sec-title { color: #fff; }
-    #industries .sec-sub { color: rgba(255,255,255,0.4); }
-    .industries-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; background: rgba(255,255,255,0.08); }
-    .ind-card {
-      background: var(--black);
-      padding: 2.5rem 2rem;
-      transition: background 0.2s;
-    }
-    .ind-card:hover { background: #1a0808; }
-    .ind-num { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; font-style: italic; color: rgba(204,0,0,0.15); margin-bottom: 1rem; line-height: 1; }
-    .ind-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
-    .ind-name { font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.7); }
+      /* INDUSTRIES */
+      #industries {
+        background: var(--black);
+        color: #fff;
+      }
+      #industries .sec-title {
+        color: #fff;
+      }
+      #industries .sec-sub {
+        color: rgba(255, 255, 255, 0.4);
+      }
+      .industries-strip {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 2px;
+        background: rgba(255, 255, 255, 0.08);
+      }
+      .ind-card {
+        background: var(--black);
+        padding: 2.5rem 2rem;
+        transition: background 0.2s;
+      }
+      .ind-card:hover {
+        background: #1a0808;
+      }
+      .ind-num {
+        font-family: "Playfair Display", serif;
+        font-size: 3rem;
+        font-weight: 900;
+        font-style: italic;
+        color: rgba(204, 0, 0, 0.15);
+        margin-bottom: 1rem;
+        line-height: 1;
+      }
+      .ind-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+      .ind-name {
+        font-size: 0.75rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.7);
+      }
 
-    /* STATS */
-    .stats-full { background: var(--red); padding: 4rem 0; }
-    .stats-inner { display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; }
-    .stat-block { padding: 1rem; border-right: 1px solid rgba(255,255,255,0.2); }
-    .stat-block:last-child { border: none; }
-    .stat-n { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; color: #fff; line-height: 1; }
-    .stat-l { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.65); margin-top: 0.5rem; font-family: 'Space Mono', monospace; }
+      /* STATS */
+      .stats-full {
+        background: var(--red);
+        padding: 4rem 0;
+      }
+      .stats-inner {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        text-align: center;
+      }
+      .stat-block {
+        padding: 1rem;
+        border-right: 1px solid rgba(255, 255, 255, 0.2);
+      }
+      .stat-block:last-child {
+        border: none;
+      }
+      .stat-n {
+        font-family: "Playfair Display", serif;
+        font-size: 4rem;
+        font-weight: 900;
+        color: #fff;
+        line-height: 1;
+      }
+      .stat-l {
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.65);
+        margin-top: 0.5rem;
+        font-family: "Space Mono", monospace;
+      }
 
-    /* DEALER */
-    #dealer { background: var(--off-white); }
-    .dealer-editorial {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-    }
-    .d-left { }
-    .d-quote {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
-      font-style: italic;
-      font-weight: 700;
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-      color: var(--black);
-      margin: 0 0 2rem;
-    }
-    .d-quote em { color: var(--red); font-style: normal; }
-    .d-text { font-size: 0.8rem; color: var(--muted); line-height: 1.8; margin-bottom: 2rem; }
-    .d-right { }
-    .d-form { display: flex; flex-direction: column; gap: 0; }
-    .form-group { position: relative; border-bottom: 1px solid rgba(0,0,0,0.15); }
-    .form-label { position: absolute; top: 0.8rem; left: 0; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
-    .form-field {
-      width: 100%;
-      border: none;
-      background: transparent;
-      padding: 2rem 0 0.75rem;
-      font-size: 0.9rem;
-      font-family: 'Space Mono', monospace;
-      color: var(--black);
-      outline: none;
-    }
-    .form-field::placeholder { color: rgba(0,0,0,0.2); }
-    .form-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2rem; }
-    .d-submit {
-      margin-top: 2.5rem;
-      background: var(--black);
-      color: #fff;
-      border: none;
-      padding: 1rem 2.5rem;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      font-family: 'Space Mono', monospace;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background 0.2s;
-      align-self: flex-start;
-    }
-    .d-submit:hover { background: var(--red); }
+      /* DEALER */
+      #dealer {
+        background: var(--off-white);
+      }
+      .dealer-editorial {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6rem;
+      }
+      .d-left {
+      }
+      .d-quote {
+        font-family: "Playfair Display", serif;
+        font-size: 2.5rem;
+        font-style: italic;
+        font-weight: 700;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        color: var(--black);
+        margin: 0 0 2rem;
+      }
+      .d-quote em {
+        color: var(--red);
+        font-style: normal;
+      }
+      .d-text {
+        font-size: 0.8rem;
+        color: var(--muted);
+        line-height: 1.8;
+        margin-bottom: 2rem;
+      }
+      .d-right {
+      }
+      .d-form {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .form-group {
+        position: relative;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+      }
+      .form-label {
+        position: absolute;
+        top: 0.8rem;
+        left: 0;
+        font-size: 0.6rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .form-field {
+        width: 100%;
+        border: none;
+        background: transparent;
+        padding: 2rem 0 0.75rem;
+        font-size: 0.9rem;
+        font-family: "Space Mono", monospace;
+        color: var(--black);
+        outline: none;
+      }
+      .form-field::placeholder {
+        color: rgba(0, 0, 0, 0.2);
+      }
+      .form-row2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0 2rem;
+      }
+      .d-submit {
+        margin-top: 2.5rem;
+        background: var(--black);
+        color: #fff;
+        border: none;
+        padding: 1rem 2.5rem;
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        font-family: "Space Mono", monospace;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background 0.2s;
+        align-self: flex-start;
+      }
+      .d-submit:hover {
+        background: var(--red);
+      }
 
-    /* FOOTER */
-    footer {
-      background: var(--black);
-      padding: 5rem 0 2rem;
-      color: rgba(255,255,255,0.7);
-    }
-    .footer-masthead {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 8vw, 7rem);
-      font-weight: 900;
-      font-style: italic;
-      color: #fff;
-      letter-spacing: -0.03em;
-      margin-bottom: 3rem;
-      line-height: 1;
-    }
-    .footer-masthead em { color: var(--red); }
-    .footer-rule { width: 100%; height: 1px; background: rgba(255,255,255,0.1); margin-bottom: 2.5rem; }
-    .footer-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 2rem; margin-bottom: 3rem; }
-    .footer-col-title { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 1.25rem; font-weight: 700; }
-    .footer-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.6rem; }
-    .footer-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 0.8rem; transition: color 0.2s; }
-    .footer-links a:hover { color: #fff; }
-    .footer-bottom-row { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 2rem; display: flex; justify-content: space-between; }
-    .footer-copy { font-size: 0.7rem; color: rgba(255,255,255,0.25); letter-spacing: 0.1em; }
+      /* FOOTER */
+      footer {
+        background: var(--black);
+        padding: 5rem 0 2rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .footer-masthead {
+        font-family: "Playfair Display", serif;
+        font-size: clamp(3rem, 8vw, 7rem);
+        font-weight: 900;
+        font-style: italic;
+        color: #fff;
+        letter-spacing: -0.03em;
+        margin-bottom: 3rem;
+        line-height: 1;
+      }
+      .footer-masthead em {
+        color: var(--red);
+      }
+      .footer-rule {
+        width: 100%;
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+        margin-bottom: 2.5rem;
+      }
+      .footer-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        gap: 2rem;
+        margin-bottom: 3rem;
+      }
+      .footer-col-title {
+        font-size: 0.6rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.35);
+        margin-bottom: 1.25rem;
+        font-weight: 700;
+      }
+      .footer-links {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+      .footer-links a {
+        color: rgba(255, 255, 255, 0.55);
+        text-decoration: none;
+        font-size: 0.8rem;
+        transition: color 0.2s;
+      }
+      .footer-links a:hover {
+        color: #fff;
+      }
+      .footer-bottom-row {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 2rem;
+        display: flex;
+        justify-content: space-between;
+      }
+      .footer-copy {
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.25);
+        letter-spacing: 0.1em;
+      }
 
-    /* RESPONSIVE */
-    @media (max-width: 1024px) {
-      .products-editorial { grid-template-columns: 1fr; }
-      .prod-feature:first-child { grid-template-columns: 1fr; }
-      .prod-feature { grid-template-columns: 1fr; }
-      .dealer-editorial { grid-template-columns: 1fr; gap: 3rem; }
-      .footer-row { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 768px) {
-      nav { padding: 1.25rem 1.5rem; }
-      .nav-links, .nav-issue { display: none; }
-      .hamburger { display: flex; }
-      .container { padding: 0 1.5rem; }
-      section { padding: 5rem 0; }
-      .hero-text { padding: 0 1.5rem 4rem; }
-      .hero-headline { font-size: clamp(3rem, 14vw, 7rem); }
-      .hero-number { display: none; }
-      .hero-foot { flex-direction: column; align-items: flex-start; }
-      .usp-row { grid-template-columns: 50px 1fr; }
-      .usp-row-text { display: none; }
-      .industries-strip { grid-template-columns: repeat(2, 1fr); }
-      .stats-inner { grid-template-columns: repeat(2, 1fr); }
-      .mat-header, .mat-row { grid-template-columns: 1fr 70px 70px 70px; }
-      .footer-row { grid-template-columns: 1fr; }
-    }
-  </style>
-</head>
-<body>
-
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">✕</button>
-    <a href="#products">Products</a>
-    <a href="#why">Why Rotacut</a>
-    <a href="#industries">Industries</a>
-    <a href="#dealer">Dealers</a>
-  </div>
-
-  <nav id="navbar">
-    <a href="/" class="nav-logo">Rotacut™</a>
-    <ul class="nav-links">
-      <li><a href="#products">Products</a></li>
-      <li><a href="#why">Why Rotacut</a></li>
-      <li><a href="#materials">Materials</a></li>
-      <li><a href="#industries">Industries</a></li>
-      <li><a href="#dealer">Dealers</a></li>
-    </ul>
-    <span class="nav-issue">Est. Since 2009</span>
-    <div class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">
-      <span></span><span></span><span></span>
+      /* RESPONSIVE */
+      @media (max-width: 1024px) {
+        .products-editorial {
+          grid-template-columns: 1fr;
+        }
+        .prod-feature:first-child {
+          grid-template-columns: 1fr;
+        }
+        .prod-feature {
+          grid-template-columns: 1fr;
+        }
+        .dealer-editorial {
+          grid-template-columns: 1fr;
+          gap: 3rem;
+        }
+        .footer-row {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 768px) {
+        nav {
+          padding: 1.25rem 1.5rem;
+        }
+        .nav-links,
+        .nav-issue {
+          display: none;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .container {
+          padding: 0 1.5rem;
+        }
+        section {
+          padding: 5rem 0;
+        }
+        .hero-text {
+          padding: 0 1.5rem 4rem;
+        }
+        .hero-headline {
+          font-size: clamp(3rem, 14vw, 7rem);
+        }
+        .hero-number {
+          display: none;
+        }
+        .hero-foot {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .usp-row {
+          grid-template-columns: 50px 1fr;
+        }
+        .usp-row-text {
+          display: none;
+        }
+        .industries-strip {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .stats-inner {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .mat-header,
+        .mat-row {
+          grid-template-columns: 1fr 70px 70px 70px;
+        }
+        .footer-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mobile-menu" id="mobileMenu">
+      <button
+        class="mobile-close"
+        onclick="document.getElementById('mobileMenu').classList.remove('open')">✕</button
+      >
+      <a href="#products">Products</a>
+      <a href="#why">Why Rotacut</a>
+      <a href="#industries">Industries</a>
+      <a href="#dealer">Dealers</a>
     </div>
-  </nav>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="hero-img"></div>
-    <div class="hero-number">01</div>
-    <div class="hero-text">
-      <div class="hero-issue">Annular Cutter Specialists</div>
-      <h1 class="hero-headline">
-        Precision.<br />
-        <em>Engineered</em><br />
-        to Perform.
-      </h1>
-      <div class="hero-foot">
-        <p class="hero-sub">Tungsten Carbide Tipped &amp; High Speed Steel annular cutters. Trusted by professionals across 30+ countries worldwide.</p>
-        <div class="hero-actions">
-          <a href="#products" class="btn-primary">View Products</a>
-          <a href="#dealer" class="btn-outline">Enquire Now</a>
-        </div>
+    <nav id="navbar">
+      <a href={base} class="nav-logo">Rotacut™</a>
+      <ul class="nav-links">
+        <li><a href="#products">Products</a></li>
+        <li><a href="#why">Why Rotacut</a></li>
+        <li><a href="#materials">Materials</a></li>
+        <li><a href="#industries">Industries</a></li>
+        <li><a href="#dealer">Dealers</a></li>
+      </ul>
+      <span class="nav-issue">Est. Since 2009</span>
+      <div class="hamburger" onclick="document.getElementById('mobileMenu').classList.add('open')">
+        <span></span><span></span><span></span>
       </div>
-    </div>
-  </section>
+    </nav>
 
-  <!-- PRODUCTS -->
-  <section id="products">
-    <div class="container">
-      <div class="sec-number">01 — Products</div>
-      <h2 class="sec-title">Our <em>Cutting</em><br />Solutions.</h2>
-      <p class="sec-sub">Four product lines engineered for every material and application — from mild steel to exotic alloys.</p>
-    </div>
-    <div class="products-editorial">
-      <!-- Feature product -->
-      <div class="prod-feature" style="grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;">
-        <div class="prod-img-side" style="min-height:360px;">
-          <img src="/products/22x75.png" alt="TCT Annular Cutter" loading="lazy" />
-        </div>
-        <div class="prod-text-side" style="background:#0f0f0f;">
-          <div class="prod-tag">Feature Product — TCT Series</div>
-          <h3 class="prod-name">TCT <em>Annular</em><br />Cutters</h3>
-          <p class="prod-desc">Engineered with Sandvik carbide tips for maximum performance on steel, stainless steel, aluminium, and exotic materials. The professional's choice.</p>
-          <div class="prod-specs">
-            <div class="ps-row"><span class="ps-key">Diameter Range</span><span class="ps-val">Ø 11–65mm</span></div>
-            <div class="ps-row"><span class="ps-key">Depth of Cut</span><span class="ps-val">35–100mm</span></div>
-            <div class="ps-row"><span class="ps-key">Shank Type</span><span class="ps-val">Weldon 19.05mm</span></div>
-            <div class="ps-row"><span class="ps-key">Carbide</span><span class="ps-val">Sandvik Grade</span></div>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-img"></div>
+      <div class="hero-number">01</div>
+      <div class="hero-text">
+        <div class="hero-issue">Annular Cutter Specialists</div>
+        <h1 class="hero-headline">
+          Precision.<br />
+          <em>Engineered</em><br />
+          to Perform.
+        </h1>
+        <div class="hero-foot">
+          <p class="hero-sub">
+            Tungsten Carbide Tipped &amp; High Speed Steel annular cutters. Trusted by professionals
+            across 30+ countries worldwide.
+          </p>
+          <div class="hero-actions">
+            <a href="#products" class="btn-primary">View Products</a>
+            <a href="#dealer" class="btn-outline">Enquire Now</a>
           </div>
         </div>
       </div>
-      <!-- Three smaller products -->
-      <div class="prod-small">
-        <div class="prod-small-img">
-          <img src="/products/22x35.png" alt="Rail Cutter" loading="lazy" />
-        </div>
-        <div class="prod-small-text">
-          <div class="prod-tag">Rail Series</div>
-          <h3 class="prod-name" style="font-size:1.5rem;">TCT <em>Rail</em> Cutters</h3>
-          <p class="prod-desc" style="font-size:0.75rem;">Purpose-built for railway drilling. Ø 12–36mm, DoC 25–50mm.</p>
-        </div>
-      </div>
-      <div class="prod-small">
-        <div class="prod-small-img">
-          <img src="/products/22x100.png" alt="HSS Cutter" loading="lazy" />
-        </div>
-        <div class="prod-small-text">
-          <div class="prod-tag">HSS Series</div>
-          <h3 class="prod-name" style="font-size:1.5rem;">HSS <em>Annular</em> Cutters</h3>
-          <p class="prod-desc" style="font-size:0.75rem;">For plastics, brass, cast iron, mild steel. Ø 12–60mm.</p>
-        </div>
-      </div>
-      <div class="prod-small" style="grid-column:span 2;">
-        <div class="prod-small-img">
-          <img src="/products/22x75b.png" alt="Pilot Pins" loading="lazy" />
-        </div>
-        <div class="prod-small-text">
-          <div class="prod-tag">Accessories</div>
-          <h3 class="prod-name" style="font-size:1.5rem;"><em>Pilot</em> Pins</h3>
-          <p class="prod-desc" style="font-size:0.75rem;">Precision pilot pins for all cutter types. Essential for accurate centration, lubrication flow, and clean slug ejection.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- WHY ROTACUT -->
-  <section id="why">
-    <div class="container">
-      <div class="sec-number">02 — Engineering</div>
-      <h2 class="sec-title">Why Choose<br /><em>Rotacut.</em></h2>
-      <p class="sec-sub">Six principles that separate Rotacut from the competition.</p>
-      <div class="usp-list">
-        <div class="usp-row">
-          <div class="usp-row-num">01</div>
-          <div class="usp-row-title">Sandvik Carbide Tips</div>
-          <div class="usp-row-text">Extremely hard and durable tungsten carbide cutting teeth sourced from Sandvik — the world leader in carbide tooling — for the most demanding drilling tasks.</div>
-        </div>
-        <div class="usp-row">
-          <div class="usp-row-num">02</div>
-          <div class="usp-row-title">Optimised Cutting Geometry</div>
-          <div class="usp-row-text">Offset tooth positioning and continuous pre-cut design delivers the lowest heat development and consistently burr-free hole finishes.</div>
-        </div>
-        <div class="usp-row">
-          <div class="usp-row-num">03</div>
-          <div class="usp-row-title">Precision Ground Shanks</div>
-          <div class="usp-row-text">Weldon and Universal shank options with close-tolerance fitment for zero run-out and perfect concentricity on every cut.</div>
-        </div>
-        <div class="usp-row">
-          <div class="usp-row-num">04</div>
-          <div class="usp-row-title">Optimal Chip Removal</div>
-          <div class="usp-row-text">Well-engineered spiral flute angles designed for maximum chip evacuation efficiency — keeping the cut clean, cool, and consistent.</div>
-        </div>
-        <div class="usp-row">
-          <div class="usp-row-num">05</div>
-          <div class="usp-row-title">Stability &amp; Durability</div>
-          <div class="usp-row-text">Special alloy body with tapered inside fitment prevents the cutter from seizing — protecting both cutter and magnetic drill.</div>
-        </div>
-        <div class="usp-row">
-          <div class="usp-row-num">06</div>
-          <div class="usp-row-title">Complete Size Range</div>
-          <div class="usp-row-text">Diameters 11–65mm, depths 25–100mm. Custom sizes on request for OEM and special applications worldwide.</div>
-        </div>
+    <!-- PRODUCTS -->
+    <section id="products">
+      <div class="container">
+        <div class="sec-number">01 — Products</div>
+        <h2 class="sec-title">Our <em>Cutting</em><br />Solutions.</h2>
+        <p class="sec-sub">
+          Four product lines engineered for every material and application — from mild steel to
+          exotic alloys.
+        </p>
       </div>
-    </div>
-  </section>
-
-  <!-- MATERIALS -->
-  <section id="materials">
-    <div class="container">
-      <div class="sec-number">03 — Compatibility</div>
-      <h2 class="sec-title">Material<br /><em>Selection</em> Guide.</h2>
-      <p class="sec-sub">Find the right Rotacut cutter for your workpiece material. ● Optimal &nbsp;◑ Good &nbsp;○ Possible</p>
-      <div class="mat-wrap">
-        <div class="mat-header">
-          <span>Material</span>
-          <span>TCT</span>
-          <span>Rail TCT</span>
-          <span>HSS</span>
-        </div>
-        <div class="mat-row"><span class="mat-name">Plastics</span><span class="mat-cell"><span class="dot d-good">◑</span></span><span class="mat-cell"><span class="dot d-none">—</span></span><span class="mat-cell"><span class="dot d-opt">●</span></span></div>
-        <div class="mat-row"><span class="mat-name">Brass / Copper / Tin</span><span class="mat-cell"><span class="dot d-good">◑</span></span><span class="mat-cell"><span class="dot d-none">—</span></span><span class="mat-cell"><span class="dot d-opt">●</span></span></div>
-        <div class="mat-row"><span class="mat-name">Grey Cast Iron</span><span class="mat-cell"><span class="dot d-opt">●</span></span><span class="mat-cell"><span class="dot d-none">—</span></span><span class="mat-cell"><span class="dot d-good">◑</span></span></div>
-        <div class="mat-row"><span class="mat-name">Mild Steel (≤500 N/mm²)</span><span class="mat-cell"><span class="dot d-opt">●</span></span><span class="mat-cell"><span class="dot d-none">—</span></span><span class="mat-cell"><span class="dot d-opt">●</span></span></div>
-        <div class="mat-row"><span class="mat-name">High Tensile Steel (≤800 N/mm²)</span><span class="mat-cell"><span class="dot d-opt">●</span></span><span class="mat-cell"><span class="dot d-none">—</span></span><span class="mat-cell"><span class="dot d-pos">○</span></span></div>
-        <div class="mat-row"><span class="mat-name">Stainless Steel</span><span class="mat-cell"><span class="dot d-opt">●</span></span><span class="mat-cell"><span class="dot d-none">—</span></span><span class="mat-cell"><span class="dot d-none">—</span></span></div>
-        <div class="mat-row"><span class="mat-name">Aluminium</span><span class="mat-cell"><span class="dot d-opt">●</span></span><span class="mat-cell"><span class="dot d-none">—</span></span><span class="mat-cell"><span class="dot d-good">◑</span></span></div>
-        <div class="mat-row"><span class="mat-name">Exotic Materials (Inconel, HARDOX)</span><span class="mat-cell"><span class="dot d-opt">●</span></span><span class="mat-cell"><span class="dot d-none">—</span></span><span class="mat-cell"><span class="dot d-none">—</span></span></div>
-        <div class="mat-row"><span class="mat-name">Railway Rails</span><span class="mat-cell"><span class="dot d-good">◑</span></span><span class="mat-cell"><span class="dot d-opt">●</span></span><span class="mat-cell"><span class="dot d-none">—</span></span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- INDUSTRIES -->
-  <section id="industries">
-    <div class="container">
-      <div class="sec-number" style="color:rgba(204,0,0,0.7);">04 — Applications</div>
-      <h2 class="sec-title">Industries<br /><em>We Serve.</em></h2>
-      <p class="sec-sub">Trusted across the world's most demanding industrial environments.</p>
-    </div>
-    <div class="industries-strip">
-      <div class="ind-card"><div class="ind-num">01</div><div class="ind-icon">🏗️</div><div class="ind-name">Steel Fabrication</div></div>
-      <div class="ind-card"><div class="ind-num">02</div><div class="ind-icon">🚂</div><div class="ind-name">Railway &amp; Infrastructure</div></div>
-      <div class="ind-card"><div class="ind-num">03</div><div class="ind-icon">⚓</div><div class="ind-name">Shipbuilding &amp; Marine</div></div>
-      <div class="ind-card"><div class="ind-num">04</div><div class="ind-icon">⚡</div><div class="ind-name">Power &amp; Energy</div></div>
-      <div class="ind-card"><div class="ind-num">05</div><div class="ind-icon">🛢️</div><div class="ind-name">Oil &amp; Gas</div></div>
-      <div class="ind-card"><div class="ind-num">06</div><div class="ind-icon">⛏️</div><div class="ind-name">Mining &amp; Equipment</div></div>
-      <div class="ind-card"><div class="ind-num">07</div><div class="ind-icon">⚙️</div><div class="ind-name">General Engineering</div></div>
-      <div class="ind-card"><div class="ind-num">08</div><div class="ind-icon">✈️</div><div class="ind-name">Automotive &amp; Aerospace</div></div>
-    </div>
-  </section>
-
-  <!-- STATS -->
-  <div class="stats-full">
-    <div class="container">
-      <div class="stats-inner">
-        <div class="stat-block"><div class="stat-n">500+</div><div class="stat-l">Dealers</div></div>
-        <div class="stat-block"><div class="stat-n">30+</div><div class="stat-l">Countries</div></div>
-        <div class="stat-block"><div class="stat-n">54+</div><div class="stat-l">SKUs</div></div>
-        <div class="stat-block"><div class="stat-n">15+</div><div class="stat-l">Years</div></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- DEALER -->
-  <section id="dealer">
-    <div class="container">
-      <div class="sec-number">05 — Contact</div>
-      <div class="dealer-editorial">
-        <div class="d-left">
-          <p class="d-quote">
-            Ready to cut<br />
-            with <em>precision?</em>
-          </p>
-          <p class="d-text">Whether you're looking to source Rotacut cutters or become an authorised dealer, our team is ready to assist. We serve 30+ countries with fast, reliable supply.</p>
-          <p class="d-text">📧 info@rotacut.com &nbsp;·&nbsp; 🌐 www.rotacut.com</p>
-          <a href="#" class="btn-primary" style="display:inline-block;">Download Catalogue</a>
-        </div>
-        <div class="d-right" id="contact">
-          <h3 style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;letter-spacing:-0.02em;margin:0 0 2rem;">Send an<br /><em style="color:var(--red);">Enquiry.</em></h3>
-          <form class="d-form" onsubmit="return false;">
-            <div class="form-row2">
-              <div class="form-group"><label class="form-label">Name</label><input class="form-field" type="text" placeholder="Your name" /></div>
-              <div class="form-group"><label class="form-label">Company</label><input class="form-field" type="text" placeholder="Company" /></div>
+      <div class="products-editorial">
+        <!-- Feature product -->
+        <div
+          class="prod-feature"
+          style="grid-column:span 2;display:grid;grid-template-columns:1fr 1fr;"
+        >
+          <div class="prod-img-side" style="min-height:360px;">
+            <img src={`${base}/products/22x75.png`} alt="TCT Annular Cutter" loading="lazy" />
+          </div>
+          <div class="prod-text-side" style="background:#0f0f0f;">
+            <div class="prod-tag">Feature Product — TCT Series</div>
+            <h3 class="prod-name">TCT <em>Annular</em><br />Cutters</h3>
+            <p class="prod-desc">
+              Engineered with Sandvik carbide tips for maximum performance on steel, stainless
+              steel, aluminium, and exotic materials. The professional's choice.
+            </p>
+            <div class="prod-specs">
+              <div class="ps-row">
+                <span class="ps-key">Diameter Range</span><span class="ps-val">Ø 11–65mm</span>
+              </div>
+              <div class="ps-row">
+                <span class="ps-key">Depth of Cut</span><span class="ps-val">35–100mm</span>
+              </div>
+              <div class="ps-row">
+                <span class="ps-key">Shank Type</span><span class="ps-val">Weldon 19.05mm</span>
+              </div>
+              <div class="ps-row">
+                <span class="ps-key">Carbide</span><span class="ps-val">Sandvik Grade</span>
+              </div>
             </div>
-            <div class="form-row2">
-              <div class="form-group"><label class="form-label">Email</label><input class="form-field" type="email" placeholder="email@company.com" /></div>
-              <div class="form-group"><label class="form-label">Phone</label><input class="form-field" type="tel" placeholder="+1 000 000 0000" /></div>
+          </div>
+        </div>
+        <!-- Three smaller products -->
+        <div class="prod-small">
+          <div class="prod-small-img">
+            <img src={`${base}/products/22x35.png`} alt="Rail Cutter" loading="lazy" />
+          </div>
+          <div class="prod-small-text">
+            <div class="prod-tag">Rail Series</div>
+            <h3 class="prod-name" style="font-size:1.5rem;">TCT <em>Rail</em> Cutters</h3>
+            <p class="prod-desc" style="font-size:0.75rem;">
+              Purpose-built for railway drilling. Ø 12–36mm, DoC 25–50mm.
+            </p>
+          </div>
+        </div>
+        <div class="prod-small">
+          <div class="prod-small-img">
+            <img src={`${base}/products/22x100.png`} alt="HSS Cutter" loading="lazy" />
+          </div>
+          <div class="prod-small-text">
+            <div class="prod-tag">HSS Series</div>
+            <h3 class="prod-name" style="font-size:1.5rem;">HSS <em>Annular</em> Cutters</h3>
+            <p class="prod-desc" style="font-size:0.75rem;">
+              For plastics, brass, cast iron, mild steel. Ø 12–60mm.
+            </p>
+          </div>
+        </div>
+        <div class="prod-small" style="grid-column:span 2;">
+          <div class="prod-small-img">
+            <img src={`${base}/products/22x75b.png`} alt="Pilot Pins" loading="lazy" />
+          </div>
+          <div class="prod-small-text">
+            <div class="prod-tag">Accessories</div>
+            <h3 class="prod-name" style="font-size:1.5rem;"><em>Pilot</em> Pins</h3>
+            <p class="prod-desc" style="font-size:0.75rem;">
+              Precision pilot pins for all cutter types. Essential for accurate centration,
+              lubrication flow, and clean slug ejection.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY ROTACUT -->
+    <section id="why">
+      <div class="container">
+        <div class="sec-number">02 — Engineering</div>
+        <h2 class="sec-title">Why Choose<br /><em>Rotacut.</em></h2>
+        <p class="sec-sub">Six principles that separate Rotacut from the competition.</p>
+        <div class="usp-list">
+          <div class="usp-row">
+            <div class="usp-row-num">01</div>
+            <div class="usp-row-title">Sandvik Carbide Tips</div>
+            <div class="usp-row-text">
+              Extremely hard and durable tungsten carbide cutting teeth sourced from Sandvik — the
+              world leader in carbide tooling — for the most demanding drilling tasks.
             </div>
-            <div class="form-group">
-              <label class="form-label">Message</label>
-              <textarea class="form-field" rows="3" placeholder="Tell us about your requirements..." style="resize:vertical;"></textarea>
+          </div>
+          <div class="usp-row">
+            <div class="usp-row-num">02</div>
+            <div class="usp-row-title">Optimised Cutting Geometry</div>
+            <div class="usp-row-text">
+              Offset tooth positioning and continuous pre-cut design delivers the lowest heat
+              development and consistently burr-free hole finishes.
             </div>
-            <button type="submit" class="d-submit">Send Enquiry →</button>
-          </form>
+          </div>
+          <div class="usp-row">
+            <div class="usp-row-num">03</div>
+            <div class="usp-row-title">Precision Ground Shanks</div>
+            <div class="usp-row-text">
+              Weldon and Universal shank options with close-tolerance fitment for zero run-out and
+              perfect concentricity on every cut.
+            </div>
+          </div>
+          <div class="usp-row">
+            <div class="usp-row-num">04</div>
+            <div class="usp-row-title">Optimal Chip Removal</div>
+            <div class="usp-row-text">
+              Well-engineered spiral flute angles designed for maximum chip evacuation efficiency —
+              keeping the cut clean, cool, and consistent.
+            </div>
+          </div>
+          <div class="usp-row">
+            <div class="usp-row-num">05</div>
+            <div class="usp-row-title">Stability &amp; Durability</div>
+            <div class="usp-row-text">
+              Special alloy body with tapered inside fitment prevents the cutter from seizing —
+              protecting both cutter and magnetic drill.
+            </div>
+          </div>
+          <div class="usp-row">
+            <div class="usp-row-num">06</div>
+            <div class="usp-row-title">Complete Size Range</div>
+            <div class="usp-row-text">
+              Diameters 11–65mm, depths 25–100mm. Custom sizes on request for OEM and special
+              applications worldwide.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MATERIALS -->
+    <section id="materials">
+      <div class="container">
+        <div class="sec-number">03 — Compatibility</div>
+        <h2 class="sec-title">Material<br /><em>Selection</em> Guide.</h2>
+        <p class="sec-sub">
+          Find the right Rotacut cutter for your workpiece material. ● Optimal &nbsp;◑ Good &nbsp;○
+          Possible
+        </p>
+        <div class="mat-wrap">
+          <div class="mat-header">
+            <span>Material</span>
+            <span>TCT</span>
+            <span>Rail TCT</span>
+            <span>HSS</span>
+          </div>
+          <div class="mat-row">
+            <span class="mat-name">Plastics</span><span class="mat-cell"
+              ><span class="dot d-good">◑</span></span
+            ><span class="mat-cell"><span class="dot d-none">—</span></span><span class="mat-cell"
+              ><span class="dot d-opt">●</span></span
+            >
+          </div>
+          <div class="mat-row">
+            <span class="mat-name">Brass / Copper / Tin</span><span class="mat-cell"
+              ><span class="dot d-good">◑</span></span
+            ><span class="mat-cell"><span class="dot d-none">—</span></span><span class="mat-cell"
+              ><span class="dot d-opt">●</span></span
+            >
+          </div>
+          <div class="mat-row">
+            <span class="mat-name">Grey Cast Iron</span><span class="mat-cell"
+              ><span class="dot d-opt">●</span></span
+            ><span class="mat-cell"><span class="dot d-none">—</span></span><span class="mat-cell"
+              ><span class="dot d-good">◑</span></span
+            >
+          </div>
+          <div class="mat-row">
+            <span class="mat-name">Mild Steel (≤500 N/mm²)</span><span class="mat-cell"
+              ><span class="dot d-opt">●</span></span
+            ><span class="mat-cell"><span class="dot d-none">—</span></span><span class="mat-cell"
+              ><span class="dot d-opt">●</span></span
+            >
+          </div>
+          <div class="mat-row">
+            <span class="mat-name">High Tensile Steel (≤800 N/mm²)</span><span class="mat-cell"
+              ><span class="dot d-opt">●</span></span
+            ><span class="mat-cell"><span class="dot d-none">—</span></span><span class="mat-cell"
+              ><span class="dot d-pos">○</span></span
+            >
+          </div>
+          <div class="mat-row">
+            <span class="mat-name">Stainless Steel</span><span class="mat-cell"
+              ><span class="dot d-opt">●</span></span
+            ><span class="mat-cell"><span class="dot d-none">—</span></span><span class="mat-cell"
+              ><span class="dot d-none">—</span></span
+            >
+          </div>
+          <div class="mat-row">
+            <span class="mat-name">Aluminium</span><span class="mat-cell"
+              ><span class="dot d-opt">●</span></span
+            ><span class="mat-cell"><span class="dot d-none">—</span></span><span class="mat-cell"
+              ><span class="dot d-good">◑</span></span
+            >
+          </div>
+          <div class="mat-row">
+            <span class="mat-name">Exotic Materials (Inconel, HARDOX)</span><span class="mat-cell"
+              ><span class="dot d-opt">●</span></span
+            ><span class="mat-cell"><span class="dot d-none">—</span></span><span class="mat-cell"
+              ><span class="dot d-none">—</span></span
+            >
+          </div>
+          <div class="mat-row">
+            <span class="mat-name">Railway Rails</span><span class="mat-cell"
+              ><span class="dot d-good">◑</span></span
+            ><span class="mat-cell"><span class="dot d-opt">●</span></span><span class="mat-cell"
+              ><span class="dot d-none">—</span></span
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INDUSTRIES -->
+    <section id="industries">
+      <div class="container">
+        <div class="sec-number" style="color:rgba(204,0,0,0.7);">04 — Applications</div>
+        <h2 class="sec-title">Industries<br /><em>We Serve.</em></h2>
+        <p class="sec-sub">Trusted across the world's most demanding industrial environments.</p>
+      </div>
+      <div class="industries-strip">
+        <div class="ind-card">
+          <div class="ind-num">01</div><div class="ind-icon"><Building2 size={32} /></div><div
+            class="ind-name"
+          >
+            Steel Fabrication
+          </div>
+        </div>
+        <div class="ind-card">
+          <div class="ind-num">02</div><div class="ind-icon"><TrainFront size={32} /></div><div
+            class="ind-name"
+          >
+            Railway &amp; Infrastructure
+          </div>
+        </div>
+        <div class="ind-card">
+          <div class="ind-num">03</div><div class="ind-icon"><Anchor size={32} /></div><div
+            class="ind-name"
+          >
+            Shipbuilding &amp; Marine
+          </div>
+        </div>
+        <div class="ind-card">
+          <div class="ind-num">04</div><div class="ind-icon"><Zap size={32} /></div><div
+            class="ind-name"
+          >
+            Power &amp; Energy
+          </div>
+        </div>
+        <div class="ind-card">
+          <div class="ind-num">05</div><div class="ind-icon"><Fuel size={32} /></div><div
+            class="ind-name"
+          >
+            Oil &amp; Gas
+          </div>
+        </div>
+        <div class="ind-card">
+          <div class="ind-num">06</div><div class="ind-icon"><Pickaxe size={32} /></div><div
+            class="ind-name"
+          >
+            Mining &amp; Equipment
+          </div>
+        </div>
+        <div class="ind-card">
+          <div class="ind-num">07</div><div class="ind-icon"><Cog size={32} /></div><div
+            class="ind-name"
+          >
+            General Engineering
+          </div>
+        </div>
+        <div class="ind-card">
+          <div class="ind-num">08</div><div class="ind-icon"><Plane size={32} /></div><div
+            class="ind-name"
+          >
+            Automotive &amp; Aerospace
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <div class="stats-full">
+      <div class="container">
+        <div class="stats-inner">
+          <div class="stat-block">
+            <div class="stat-n">500+</div><div class="stat-l">Dealers</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-n">30+</div><div class="stat-l">Countries</div>
+          </div>
+          <div class="stat-block"><div class="stat-n">54+</div><div class="stat-l">SKUs</div></div>
+          <div class="stat-block"><div class="stat-n">15+</div><div class="stat-l">Years</div></div>
         </div>
       </div>
     </div>
-  </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="container">
-      <div class="footer-masthead">Rota<em>cut</em>™</div>
-      <div class="footer-rule"></div>
-      <div class="footer-row">
-        <div>
-          <p class="footer-col-title">Products</p>
-          <ul class="footer-links">
-            <li><a href="#products">TCT Annular Cutters</a></li>
-            <li><a href="#products">TCT Rail Cutters</a></li>
-            <li><a href="#products">HSS Annular Cutters</a></li>
-            <li><a href="#products">Pilot Pins</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="footer-col-title">Company</p>
-          <ul class="footer-links">
-            <li><a href="#">About</a></li>
-            <li><a href="#">Dealer Network</a></li>
-            <li><a href="#">Download Catalogue</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="footer-col-title">Resources</p>
-          <ul class="footer-links">
-            <li><a href="#materials">Material Guide</a></li>
-            <li><a href="#">Spec Sheets</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-          </ul>
-        </div>
-        <div>
-          <p class="footer-col-title">Contact</p>
-          <ul class="footer-links">
-            <li><a href="#">info@rotacut.com</a></li>
-            <li><a href="#">www.rotacut.com</a></li>
-          </ul>
+    <!-- DEALER -->
+    <section id="dealer">
+      <div class="container">
+        <div class="sec-number">05 — Contact</div>
+        <div class="dealer-editorial">
+          <div class="d-left">
+            <p class="d-quote">
+              Ready to cut<br />
+              with <em>precision?</em>
+            </p>
+            <p class="d-text">
+              Whether you're looking to source Rotacut cutters or become an authorised dealer, our
+              team is ready to assist. We serve 30+ countries with fast, reliable supply.
+            </p>
+            <p class="d-text">📧 info@rotacut.com &nbsp;·&nbsp; 🌐 www.rotacut.com</p>
+            <a href="#" class="btn-primary" style="display:inline-block;">Download Catalogue</a>
+          </div>
+          <div class="d-right" id="contact">
+            <h3
+              style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;letter-spacing:-0.02em;margin:0 0 2rem;"
+            >
+              Send an<br /><em style="color:var(--red);">Enquiry.</em>
+            </h3>
+            <form class="d-form" onsubmit="return false;">
+              <div class="form-row2">
+                <div class="form-group">
+                  <label class="form-label">Name</label><input
+                    class="form-field"
+                    type="text"
+                    placeholder="Your name"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Company</label><input
+                    class="form-field"
+                    type="text"
+                    placeholder="Company"
+                  />
+                </div>
+              </div>
+              <div class="form-row2">
+                <div class="form-group">
+                  <label class="form-label">Email</label><input
+                    class="form-field"
+                    type="email"
+                    placeholder="email@company.com"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Phone</label><input
+                    class="form-field"
+                    type="tel"
+                    placeholder="+1 000 000 0000"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Message</label>
+                <textarea
+                  class="form-field"
+                  rows="3"
+                  placeholder="Tell us about your requirements..."
+                  style="resize:vertical;"></textarea>
+              </div>
+              <button type="submit" class="d-submit">Send Enquiry →</button>
+            </form>
+          </div>
         </div>
       </div>
-      <div class="footer-bottom-row">
-        <p class="footer-copy">© 2026 Rotacut. All rights reserved.</p>
-        <a href="/" style="font-size:0.7rem;color:rgba(255,255,255,0.2);text-decoration:none;">← Design Picker</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container">
+        <div class="footer-masthead">Rota<em>cut</em>™</div>
+        <div class="footer-rule"></div>
+        <div class="footer-row">
+          <div>
+            <p class="footer-col-title">Products</p>
+            <ul class="footer-links">
+              <li><a href="#products">TCT Annular Cutters</a></li>
+              <li><a href="#products">TCT Rail Cutters</a></li>
+              <li><a href="#products">HSS Annular Cutters</a></li>
+              <li><a href="#products">Pilot Pins</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-col-title">Company</p>
+            <ul class="footer-links">
+              <li><a href="#">About</a></li>
+              <li><a href="#">Dealer Network</a></li>
+              <li><a href="#">Download Catalogue</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-col-title">Resources</p>
+            <ul class="footer-links">
+              <li><a href="#materials">Material Guide</a></li>
+              <li><a href="#">Spec Sheets</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+            </ul>
+          </div>
+          <div>
+            <p class="footer-col-title">Contact</p>
+            <ul class="footer-links">
+              <li><a href="#">info@rotacut.com</a></li>
+              <li><a href="#">www.rotacut.com</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom-row">
+          <p class="footer-copy">© 2026 Rotacut. All rights reserved.</p>
+          <a href={base} style="font-size:0.7rem;color:rgba(255,255,255,0.2);text-decoration:none;"
+            >← Design Picker</a
+          >
+        </div>
       </div>
-    </div>
-  </footer>
+    </footer>
 
-  <script>
-    const nav = document.getElementById('navbar');
-    const heroEl = document.querySelector('.hero');
-    const obs = new IntersectionObserver(([e]) => {
-      nav.classList.toggle('light-nav', !e.isIntersecting);
-    }, { threshold: 0.05 });
-    obs.observe(heroEl);
-  </script>
-
-</body>
+    <script>
+      const nav = document.getElementById("navbar");
+      const heroEl = document.querySelector(".hero");
+      const obs = new IntersectionObserver(
+        ([e]) => {
+          nav?.classList.toggle("light-nav", !e.isIntersecting);
+        },
+        { threshold: 0.05 },
+      );
+      if (heroEl) {
+        obs.observe(heroEl);
+      }
+    </script>
+  </body>
 </html>

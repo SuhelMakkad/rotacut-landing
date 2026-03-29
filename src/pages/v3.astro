@@ -8,6 +8,9 @@ import Fuel from "@lucide/astro/icons/fuel";
 import Pickaxe from "@lucide/astro/icons/pickaxe";
 import Cog from "@lucide/astro/icons/cog";
 import Plane from "@lucide/astro/icons/plane";
+import Mail from "@lucide/astro/icons/mail";
+import Globe from "@lucide/astro/icons/globe";
+import MapPin from "@lucide/astro/icons/map-pin";
 
 const base = import.meta.env.BASE_URL;
 ---
@@ -1229,7 +1232,7 @@ const base = import.meta.env.BASE_URL;
               Whether you're looking to source Rotacut cutters or become an authorised dealer, our
               team is ready to assist. We serve 30+ countries with fast, reliable supply.
             </p>
-            <p class="d-text">📧 info@rotacut.com &nbsp;·&nbsp; 🌐 www.rotacut.com</p>
+            <p class="d-text" style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;"><Mail size={15} /> info@rotacut.com <span style="opacity:0.4;">·</span> <Globe size={15} /> www.rotacut.com</p>
             <a href="#" class="btn-primary" style="display:inline-block;">Download Catalogue</a>
           </div>
           <div class="d-right" id="contact">

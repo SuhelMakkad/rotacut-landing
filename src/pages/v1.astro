@@ -8,6 +8,9 @@ import Fuel from "@lucide/astro/icons/fuel";
 import Pickaxe from "@lucide/astro/icons/pickaxe";
 import Cog from "@lucide/astro/icons/cog";
 import Plane from "@lucide/astro/icons/plane";
+import Mail from "@lucide/astro/icons/mail";
+import Globe from "@lucide/astro/icons/globe";
+import MapPin from "@lucide/astro/icons/map-pin";
 
 const base = import.meta.env.BASE_URL;
 ---
@@ -1292,13 +1295,13 @@ const base = import.meta.env.BASE_URL;
             >
               Quick Contact
             </p>
-            <p style="font-size:0.9rem;color:rgba(255,255,255,0.7);font-weight:300;">
-              📧 info@rotacut.com
+            <p style="font-size:0.9rem;color:rgba(255,255,255,0.7);font-weight:300;display:flex;align-items:center;gap:0.4rem;">
+              <Mail size={14} />{" "}info@rotacut.com
             </p>
             <p
-              style="font-size:0.9rem;color:rgba(255,255,255,0.7);font-weight:300;margin-top:0.3rem;"
+              style="font-size:0.9rem;color:rgba(255,255,255,0.7);font-weight:300;margin-top:0.3rem;display:flex;align-items:center;gap:0.4rem;"
             >
-              🌐 www.rotacut.com
+              <Globe size={14} />{" "}www.rotacut.com
             </p>
           </div>
         </div>

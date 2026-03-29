@@ -1,33 +1,46 @@
 ---
 import "../styles/global.css";
+
+const base = import.meta.env.BASE_URL;
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={`${base}favicon.svg`} />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Rotacut — Choose a Design</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <style>
-      body { margin: 0; background: #0a0a0a; font-family: 'Barlow', sans-serif; }
+      body {
+        margin: 0;
+        background: #0a0a0a;
+        font-family: "Barlow", sans-serif;
+      }
       .grid-bg {
-        background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
         background-size: 60px 60px;
       }
       .card {
         position: relative;
         overflow: hidden;
-        border: 1px solid rgba(255,255,255,0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
         transition: all 0.3s ease;
         display: block;
         text-decoration: none;
         border-radius: 0.5rem;
       }
-      .card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,0.3); }
+      .card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(255, 255, 255, 0.3);
+      }
       .card-preview {
         height: 220px;
         display: flex;
@@ -35,22 +48,58 @@ import "../styles/global.css";
         padding: 1.5rem;
         position: relative;
       }
-      .v1-preview { background: #0a0a0a; position: relative; }
-      .v1-preview::before { content: ''; position: absolute; inset: 0; background: url('/products/all-in-one.png') center/cover; opacity: 0.35; }
-      .v1-preview::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 80px; background: linear-gradient(transparent, #0a0a0a); }
-      .v2-preview { background: linear-gradient(135deg, #fafafa 0%, #f0f4f0 100%); }
-      .v3-preview { background: #000; position: relative; }
-      .v3-preview::before { content: ''; position: absolute; inset: 0; background: url('/products/all-in-one.png') center/cover; opacity: 0.4; }
-      .v3-preview::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.7) 40%, transparent); }
+      .v1-preview {
+        background: #0a0a0a;
+        position: relative;
+      }
+      .v1-preview::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url("/products/all-in-one.png") center/cover;
+        opacity: 0.35;
+      }
+      .v1-preview::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 80px;
+        background: linear-gradient(transparent, #0a0a0a);
+      }
+      .v2-preview {
+        background: linear-gradient(135deg, #fafafa 0%, #f0f4f0 100%);
+      }
+      .v3-preview {
+        background: #000;
+        position: relative;
+      }
+      .v3-preview::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: url("/products/all-in-one.png") center/cover;
+        opacity: 0.4;
+      }
+      .v3-preview::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, rgba(0, 0, 0, 0.7) 40%, transparent);
+      }
       .v4-preview {
         background: #0d1b2a;
-        background-image: linear-gradient(rgba(0,191,255,0.08) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(0,191,255,0.08) 1px, transparent 1px);
+        background-image:
+          linear-gradient(rgba(0, 191, 255, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(0, 191, 255, 0.08) 1px, transparent 1px);
         background-size: 30px 30px;
       }
-      .v5-preview { background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 60%, #1b5e20 100%); }
+      .v5-preview {
+        background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 60%, #1b5e20 100%);
+      }
       .tag {
-        font-family: 'Bebas Neue', sans-serif;
+        font-family: "Bebas Neue", sans-serif;
         font-size: 0.75rem;
         letter-spacing: 0.15em;
         padding: 0.2rem 0.6rem;
@@ -60,114 +109,174 @@ import "../styles/global.css";
     </style>
   </head>
   <body class="grid-bg min-h-screen">
-
     <div class="max-w-6xl mx-auto px-6 py-20">
       <div class="text-center mb-16">
-        <p class="text-xs tracking-[0.3em] text-gray-500 uppercase mb-4">Rotacut — Landing Page Concepts</p>
-        <h1 style="font-family:'Bebas Neue',sans-serif; font-size:clamp(3rem,8vw,5.5rem); line-height:0.9; color:#fff; letter-spacing:0.02em;">
+        <p class="text-xs tracking-[0.3em] text-gray-500 uppercase mb-4">
+          Rotacut — Landing Page Concepts
+        </p>
+        <h1
+          style="font-family:'Bebas Neue',sans-serif; font-size:clamp(3rem,8vw,5.5rem); line-height:0.9; color:#fff; letter-spacing:0.02em;"
+        >
           Choose Your<br /><span style="color:#CC0000;">Design</span>
         </h1>
         <p class="text-gray-400 mt-6 max-w-md mx-auto leading-relaxed text-sm">
-          Five distinct visual directions — each fully built. Review and pick the one that best represents the Rotacut brand.
+          Five distinct visual directions — each fully built. Review and pick the one that best
+          represents the Rotacut brand.
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-
-        <a href="/v1" class="card">
+        <a href={`${base}v1`} class="card">
           <div class="v1-preview card-preview">
             <div class="relative z-10">
               <span class="tag text-white" style="background:#CC0000;">V1</span>
-              <h2 class="text-white text-2xl font-bold mt-1" style="font-family:'Bebas Neue',sans-serif; letter-spacing:0.05em;">Iron &amp; Fire</h2>
+              <h2
+                class="text-white text-2xl font-bold mt-1"
+                style="font-family:'Bebas Neue',sans-serif; letter-spacing:0.05em;"
+              >
+                Iron &amp; Fire
+              </h2>
             </div>
           </div>
           <div class="p-5 bg-[#111]">
-            <p class="text-gray-400 text-sm leading-relaxed">Dark industrial premium. Near-black with dramatic product photography and glowing red accents.</p>
+            <p class="text-gray-400 text-sm leading-relaxed">
+              Dark industrial premium. Near-black with dramatic product photography and glowing red
+              accents.
+            </p>
             <div class="flex gap-2 mt-4">
-              <span class="w-5 h-5 rounded-full border border-white/20" style="background:#0a0a0a;"></span>
-              <span class="w-5 h-5 rounded-full border border-white/20" style="background:#CC0000;"></span>
-              <span class="w-5 h-5 rounded-full border border-white/20" style="background:#F57C00;"></span>
+              <span class="w-5 h-5 rounded-full border border-white/20" style="background:#0a0a0a;"
+              ></span>
+              <span class="w-5 h-5 rounded-full border border-white/20" style="background:#CC0000;"
+              ></span>
+              <span class="w-5 h-5 rounded-full border border-white/20" style="background:#F57C00;"
+              ></span>
               <span class="ml-auto text-xs text-gray-500 self-center">Bebas Neue + Barlow →</span>
             </div>
           </div>
         </a>
 
-        <a href="/v2" class="card">
+        <a href={`${base}v2`} class="card">
           <div class="v2-preview card-preview">
             <div class="relative z-10">
               <span class="tag text-white" style="background:#1B5E20;">V2</span>
-              <h2 class="text-2xl font-bold mt-1" style="color:#1B5E20; font-family:'Bebas Neue',sans-serif; letter-spacing:0.05em;">Swiss Precision</h2>
+              <h2
+                class="text-2xl font-bold mt-1"
+                style="color:#1B5E20; font-family:'Bebas Neue',sans-serif; letter-spacing:0.05em;"
+              >
+                Swiss Precision
+              </h2>
             </div>
           </div>
           <div class="p-5" style="background:#FAFAFA; border-top:1px solid #e0e8e0;">
-            <p class="text-gray-500 text-sm leading-relaxed">Clinical white with dark green. Bauhaus-inspired grid that communicates engineering excellence.</p>
+            <p class="text-gray-500 text-sm leading-relaxed">
+              Clinical white with dark green. Bauhaus-inspired grid that communicates engineering
+              excellence.
+            </p>
             <div class="flex gap-2 mt-4">
-              <span class="w-5 h-5 rounded-full border border-gray-300" style="background:#FAFAFA;"></span>
-              <span class="w-5 h-5 rounded-full border border-gray-200" style="background:#1B5E20;"></span>
-              <span class="w-5 h-5 rounded-full border border-gray-200" style="background:#C62828;"></span>
+              <span class="w-5 h-5 rounded-full border border-gray-300" style="background:#FAFAFA;"
+              ></span>
+              <span class="w-5 h-5 rounded-full border border-gray-200" style="background:#1B5E20;"
+              ></span>
+              <span class="w-5 h-5 rounded-full border border-gray-200" style="background:#C62828;"
+              ></span>
               <span class="ml-auto text-xs text-gray-400 self-center">DM Serif + DM Sans →</span>
             </div>
           </div>
         </a>
 
-        <a href="/v3" class="card">
+        <a href={`${base}v3`} class="card">
           <div class="v3-preview card-preview">
             <div class="relative z-10">
               <span class="tag text-white" style="background:#CC0000;">V3</span>
-              <h2 class="text-white text-2xl font-bold mt-1" style="font-family:'Bebas Neue',sans-serif; letter-spacing:0.05em;">Power Editorial</h2>
+              <h2
+                class="text-white text-2xl font-bold mt-1"
+                style="font-family:'Bebas Neue',sans-serif; letter-spacing:0.05em;"
+              >
+                Power Editorial
+              </h2>
             </div>
           </div>
           <div class="p-5 bg-[#0a0a0a]" style="border-top:1px solid #222;">
-            <p class="text-gray-400 text-sm leading-relaxed">Magazine bold typography. Oversized headlines with strong black-and-white editorial contrast.</p>
+            <p class="text-gray-400 text-sm leading-relaxed">
+              Magazine bold typography. Oversized headlines with strong black-and-white editorial
+              contrast.
+            </p>
             <div class="flex gap-2 mt-4">
-              <span class="w-5 h-5 rounded-full border border-white/20" style="background:#000;"></span>
-              <span class="w-5 h-5 rounded-full border border-white/20" style="background:#fff;"></span>
-              <span class="w-5 h-5 rounded-full border border-white/20" style="background:#CC0000;"></span>
+              <span class="w-5 h-5 rounded-full border border-white/20" style="background:#000;"
+              ></span>
+              <span class="w-5 h-5 rounded-full border border-white/20" style="background:#fff;"
+              ></span>
+              <span class="w-5 h-5 rounded-full border border-white/20" style="background:#CC0000;"
+              ></span>
               <span class="ml-auto text-xs text-gray-500 self-center">Playfair + Space Mono →</span>
             </div>
           </div>
         </a>
 
-        <a href="/v4" class="card">
+        <a href={`${base}v4`} class="card">
           <div class="v4-preview card-preview">
             <div class="relative z-10">
               <span class="tag" style="background:#00BFFF; color:#0d1b2a;">V4</span>
-              <h2 class="text-2xl font-bold mt-1" style="color:#00BFFF; font-family:'Bebas Neue',sans-serif; letter-spacing:0.05em;">Blueprint</h2>
+              <h2
+                class="text-2xl font-bold mt-1"
+                style="color:#00BFFF; font-family:'Bebas Neue',sans-serif; letter-spacing:0.05em;"
+              >
+                Blueprint
+              </h2>
             </div>
           </div>
           <div class="p-5" style="background:#0d1b2a; border-top:1px solid rgba(0,191,255,0.15);">
-            <p class="text-sm leading-relaxed" style="color:rgba(0,191,255,0.65);">Technical engineering drawing aesthetic. Dark navy with blueprint grid and cyan annotations.</p>
+            <p class="text-sm leading-relaxed" style="color:rgba(0,191,255,0.65);">
+              Technical engineering drawing aesthetic. Dark navy with blueprint grid and cyan
+              annotations.
+            </p>
             <div class="flex gap-2 mt-4">
-              <span class="w-5 h-5 rounded-full border border-white/10" style="background:#0d1b2a;"></span>
-              <span class="w-5 h-5 rounded-full border border-white/10" style="background:#00BFFF;"></span>
-              <span class="w-5 h-5 rounded-full border border-white/10" style="background:#F57C00;"></span>
-              <span class="ml-auto text-xs self-center" style="color:rgba(0,191,255,0.4);">Rajdhani + JetBrains Mono →</span>
+              <span class="w-5 h-5 rounded-full border border-white/10" style="background:#0d1b2a;"
+              ></span>
+              <span class="w-5 h-5 rounded-full border border-white/10" style="background:#00BFFF;"
+              ></span>
+              <span class="w-5 h-5 rounded-full border border-white/10" style="background:#F57C00;"
+              ></span>
+              <span class="ml-auto text-xs self-center" style="color:rgba(0,191,255,0.4);"
+                >Rajdhani + JetBrains Mono →</span
+              >
             </div>
           </div>
         </a>
 
-        <a href="/v5" class="card">
+        <a href={`${base}v5`} class="card">
           <div class="v5-preview card-preview">
             <div class="relative z-10">
               <span class="tag text-white" style="background:#F57C00;">V5</span>
-              <h2 class="text-white text-2xl font-bold mt-1" style="font-family:'Bebas Neue',sans-serif; letter-spacing:0.05em;">Green Industrial</h2>
+              <h2
+                class="text-white text-2xl font-bold mt-1"
+                style="font-family:'Bebas Neue',sans-serif; letter-spacing:0.05em;"
+              >
+                Green Industrial
+              </h2>
             </div>
           </div>
           <div class="p-5 bg-white" style="border-top:2px solid #F57C00;">
-            <p class="text-gray-500 text-sm leading-relaxed">Modern B2B contemporary. Forest green with orange CTAs — clean, card-based, data-forward.</p>
+            <p class="text-gray-500 text-sm leading-relaxed">
+              Modern B2B contemporary. Forest green with orange CTAs — clean, card-based,
+              data-forward.
+            </p>
             <div class="flex gap-2 mt-4">
-              <span class="w-5 h-5 rounded-full border border-gray-200" style="background:#fff;"></span>
-              <span class="w-5 h-5 rounded-full border border-gray-200" style="background:#1B5E20;"></span>
-              <span class="w-5 h-5 rounded-full border border-gray-200" style="background:#F57C00;"></span>
+              <span class="w-5 h-5 rounded-full border border-gray-200" style="background:#fff;"
+              ></span>
+              <span class="w-5 h-5 rounded-full border border-gray-200" style="background:#1B5E20;"
+              ></span>
+              <span class="w-5 h-5 rounded-full border border-gray-200" style="background:#F57C00;"
+              ></span>
               <span class="ml-auto text-xs text-gray-400 self-center">Syne + Nunito Sans →</span>
             </div>
           </div>
         </a>
-
       </div>
 
-      <p class="text-center text-gray-700 text-xs mt-16 tracking-widest uppercase">rotacut.com — 2026</p>
+      <p class="text-center text-gray-700 text-xs mt-16 tracking-widest uppercase">
+        rotacut.com — 2026
+      </p>
     </div>
-
   </body>
 </html>
